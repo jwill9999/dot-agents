@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan Feature"
+  short_description: 'Bound feature plans using real code and tests'
+  default_prompt: 'Use $plan-feature to prepare a bounded, source-backed feature plan for this project.'

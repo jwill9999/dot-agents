@@ -1,0 +1,4 @@
+interface:
+  display_name: "Critique Plan"
+  short_description: 'Review plans independently against source evidence'
+  default_prompt: 'Use $critique-plan to independently assess this plan against its requirements, code and verification evidence.'

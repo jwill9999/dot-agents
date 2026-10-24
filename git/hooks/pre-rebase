@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Managed by ~/.agents; see _dispatch.
+exec "$(dirname "$0")/_dispatch" pre-rebase "$@"

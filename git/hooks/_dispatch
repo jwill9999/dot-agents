@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Global hook dispatcher (core.hooksPath = ~/.agents/git/hooks).
+# Setting core.hooksPath globally stops git from running .git/hooks, so this dispatcher runs
+# global checks and then chains to the repo's own .git/hooks/<name> if present (e.g. Beads,
+# lefthook). Repos that set their own core.hooksPath (husky) bypass this entirely.
+name="$1"; shift
+here="$(cd "$(dirname "$0")" && pwd)"
+if [ "$name" = "pre-commit" ]; then
+  "$here/secret-scan.sh" || exit $?
+fi
+local_hook="$(git rev-parse --git-dir 2>/dev/null)/hooks/$name"
+if [ -x "$local_hook" ]; then
+  exec "$local_hook" "$@"
+fi
+exit 0

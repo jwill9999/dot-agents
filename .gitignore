@@ -1,0 +1,14 @@
+# Never commit secrets or machine-local state
+*.local.json
+*.local
+.env
+.env.*
+!.env.example
+# Backups and OS noise
+skills-backup-*.tgz
+*.bak*
+*.pre-agents-*
+.DS_Store
+node_modules/
+__pycache__/
+*.pyc

@@ -1,0 +1,12 @@
+
+
+# <type>(<scope>): <subject>   ← imperative, lower case, ≤ 50 chars, no full stop
+#
+# Body: why this change was made (wrap at 72).
+#
+# Footers:
+#   Refs: <issue-id>
+#   BREAKING CHANGE: <what breaks and how to migrate>
+#
+# Types: feat fix refactor perf test docs build ci chore style revert
+# One logical change per commit. Spec: https://www.conventionalcommits.org/en/v1.0.0/

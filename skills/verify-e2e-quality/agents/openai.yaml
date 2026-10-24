@@ -1,0 +1,7 @@
+interface:
+  display_name: "Verify E2E Quality"
+  short_description: "Turn UI acceptance into Playwright E2E gates"
+  default_prompt: "Use $verify-e2e-quality to add Gherkin scenarios and Playwright E2E definition-of-done checks for this task."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,21 @@
+# Global gitignore (core.excludesFile), managed in ~/.agents/git.
+# Only things that should never be committed in any repo.
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+*.pem
+*.key
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+
+# Agent and tool local state
+.claude/settings.local.json
+.playwright-mcp/

@@ -1,0 +1,2814 @@
+version: 1
+id: codex
+name: codex
+servers:
+    - type: image
+      secrets: default
+      image: mcp/playwright@sha256:0855e87ff53866b87b4946903f114c4da96ef8757a1dda9233c5c7c4d6cc7cdb
+      snapshot:
+        server:
+            name: playwright
+            type: server
+            image: mcp/playwright@sha256:0855e87ff53866b87b4946903f114c4da96ef8757a1dda9233c5c7c4d6cc7cdb
+            description: Playwright MCP server.
+            title: Playwright
+            icon: https://avatars.githubusercontent.com/u/6154722?v=4
+            readme: http://desktop.docker.com/mcp/catalog/v3/readme/playwright.md
+            longLived: true
+            remote: {}
+            tools:
+                - name: browser_click
+                  description: Perform click on a web page
+                  arguments:
+                    - name: target
+                      type: string
+                      desc: Exact target element reference from the page snapshot, or a unique element selector
+                    - name: button
+                      type: string
+                      desc: Button to click, defaults to left
+                      optional: true
+                    - name: doubleClick
+                      type: boolean
+                      desc: Whether to perform a double click instead of a single click
+                      optional: true
+                    - name: element
+                      type: string
+                      desc: Human-readable element description used to obtain permission to interact with the element
+                      optional: true
+                    - name: modifiers
+                      type: array
+                      items:
+                        type: string
+                      desc: Modifier keys to press
+                      optional: true
+                  annotations:
+                    title: Click
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_close
+                  description: Close the page
+                  arguments: []
+                  annotations:
+                    title: Close browser
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_console_messages
+                  description: Returns all console messages
+                  arguments:
+                    - name: level
+                      type: string
+                      desc: Level of the console messages to return. Each level includes the messages of more severe levels. Defaults to "info".
+                    - name: all
+                      type: boolean
+                      desc: Return all console messages since the beginning of the session, not just since the last navigation. Defaults to false.
+                      optional: true
+                    - name: filename
+                      type: string
+                      desc: Filename to save the console messages to. If not provided, messages are returned as text.
+                      optional: true
+                  annotations:
+                    title: Get console messages
+                    readOnlyHint: true
+                    destructiveHint: false
+                    openWorldHint: true
+                - name: browser_drag
+                  description: Perform drag and drop between two elements
+                  arguments:
+                    - name: endTarget
+                      type: string
+                      desc: Exact target element reference from the page snapshot, or a unique element selector
+                    - name: startTarget
+                      type: string
+                      desc: Exact target element reference from the page snapshot, or a unique element selector
+                    - name: endElement
+                      type: string
+                      desc: Human-readable target element description used to obtain the permission to interact with the element
+                      optional: true
+                    - name: startElement
+                      type: string
+                      desc: Human-readable source element description used to obtain the permission to interact with the element
+                      optional: true
+                  annotations:
+                    title: Drag mouse
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_drop
+                  description: Drop files or MIME-typed data onto an element, as if dragged from outside the page. At least one of "paths" or "data" must be provided.
+                  arguments:
+                    - name: target
+                      type: string
+                      desc: Exact target element reference from the page snapshot, or a unique element selector
+                    - name: data
+                      type: object
+                      desc: 'Data to drop, as a map of MIME type to string value (e.g. {"text/plain": "hello", "text/uri-list": "https://example.com"}).'
+                      optional: true
+                    - name: element
+                      type: string
+                      desc: Human-readable element description used to obtain permission to interact with the element
+                      optional: true
+                    - name: paths
+                      type: array
+                      items:
+                        type: string
+                      desc: Absolute paths to files to drop onto the element.
+                      optional: true
+                  annotations:
+                    title: Drop files or data onto an element
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_evaluate
+                  description: Evaluate JavaScript expression on page or element
+                  arguments:
+                    - name: function
+                      type: string
+                      desc: () => { /* code */ } or (element) => { /* code */ } when element is provided
+                    - name: element
+                      type: string
+                      desc: Human-readable element description used to obtain permission to interact with the element
+                      optional: true
+                    - name: filename
+                      type: string
+                      desc: Filename to save the result to. If not provided, result is returned as text.
+                      optional: true
+                    - name: target
+                      type: string
+                      desc: Exact target element reference from the page snapshot, or a unique element selector
+                      optional: true
+                  annotations:
+                    title: Evaluate JavaScript
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_file_upload
+                  description: Upload one or multiple files
+                  arguments:
+                    - name: paths
+                      type: array
+                      items:
+                        type: string
+                      desc: The absolute paths to the files to upload. Can be single file or multiple files. If omitted, file chooser is cancelled.
+                      optional: true
+                  annotations:
+                    title: Upload files
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_fill_form
+                  description: Fill multiple form fields
+                  arguments:
+                    - name: fields
+                      type: array
+                      items:
+                        type: object
+                      desc: Fields to fill in
+                  annotations:
+                    title: Fill form
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_handle_dialog
+                  description: Handle a dialog
+                  arguments:
+                    - name: accept
+                      type: boolean
+                      desc: Whether to accept the dialog.
+                    - name: promptText
+                      type: string
+                      desc: The text of the prompt in case of a prompt dialog.
+                      optional: true
+                  annotations:
+                    title: Handle a dialog
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_hover
+                  description: Hover over element on page
+                  arguments:
+                    - name: target
+                      type: string
+                      desc: Exact target element reference from the page snapshot, or a unique element selector
+                    - name: element
+                      type: string
+                      desc: Human-readable element description used to obtain permission to interact with the element
+                      optional: true
+                  annotations:
+                    title: Hover mouse
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_navigate
+                  description: Navigate to a URL
+                  arguments:
+                    - name: url
+                      type: string
+                      desc: The URL to navigate to
+                  annotations:
+                    title: Navigate to a URL
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_navigate_back
+                  description: Go back to the previous page in the history
+                  arguments: []
+                  annotations:
+                    title: Go back
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_network_request
+                  description: Returns full details (headers and body) of a single network request, or a single part if `part` is set. Use the number from browser_network_requests.
+                  arguments:
+                    - name: index
+                      type: integer
+                      desc: 1-based index of the request, as printed by browser_network_requests.
+                    - name: filename
+                      type: string
+                      desc: Filename to save the result to. If not provided, output is returned as text.
+                      optional: true
+                    - name: part
+                      type: string
+                      desc: Return only this part of the request. Omit to return full details.
+                      optional: true
+                  annotations:
+                    title: Show network request details
+                    readOnlyHint: true
+                    destructiveHint: false
+                    openWorldHint: true
+                - name: browser_network_requests
+                  description: Returns a numbered list of network requests since loading the page. Use browser_network_request with the number to get full details.
+                  arguments:
+                    - name: static
+                      type: boolean
+                      desc: Whether to include successful static resources like images, fonts, scripts, etc. Defaults to false.
+                    - name: filename
+                      type: string
+                      desc: Filename to save the network requests to. If not provided, requests are returned as text.
+                      optional: true
+                    - name: filter
+                      type: string
+                      desc: Only return requests whose URL matches this regexp (e.g. "/api/.*user").
+                      optional: true
+                  annotations:
+                    title: List network requests
+                    readOnlyHint: true
+                    destructiveHint: false
+                    openWorldHint: true
+                - name: browser_press_key
+                  description: Press a key on the keyboard
+                  arguments:
+                    - name: key
+                      type: string
+                      desc: Name of the key to press or a character to generate, such as `ArrowLeft` or `a`
+                  annotations:
+                    title: Press a key
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_resize
+                  description: Resize the browser window
+                  arguments:
+                    - name: height
+                      type: number
+                      desc: Height of the browser window
+                    - name: width
+                      type: number
+                      desc: Width of the browser window
+                  annotations:
+                    title: Resize browser window
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_run_code_unsafe
+                  description: 'Run a Playwright code snippet. Unsafe: executes arbitrary JavaScript in the Playwright server process and is RCE-equivalent.'
+                  arguments:
+                    - name: code
+                      type: string
+                      desc: 'A JavaScript function containing Playwright code to execute. It will be invoked with a single argument, page, which you can use for any page interaction. For example: `async (page) => { await page.getByRole(''button'', { name: ''Submit'' }).click(); return await page.title(); }`'
+                      optional: true
+                    - name: filename
+                      type: string
+                      desc: Load code from the specified file. If both code and filename are provided, code will be ignored.
+                      optional: true
+                  annotations:
+                    title: Run Playwright code (unsafe)
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_select_option
+                  description: Select an option in a dropdown
+                  arguments:
+                    - name: target
+                      type: string
+                      desc: Exact target element reference from the page snapshot, or a unique element selector
+                    - name: values
+                      type: array
+                      items:
+                        type: string
+                      desc: Array of values to select in the dropdown. This can be a single value or multiple values.
+                    - name: element
+                      type: string
+                      desc: Human-readable element description used to obtain permission to interact with the element
+                      optional: true
+                  annotations:
+                    title: Select option
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_snapshot
+                  description: Capture accessibility snapshot of the current page, this is better than screenshot
+                  arguments:
+                    - name: boxes
+                      type: boolean
+                      desc: Include each element's bounding box as [box=x,y,width,height] in the snapshot
+                      optional: true
+                    - name: depth
+                      type: number
+                      desc: Limit the depth of the snapshot tree
+                      optional: true
+                    - name: filename
+                      type: string
+                      desc: Save snapshot to markdown file instead of returning it in the response.
+                      optional: true
+                    - name: target
+                      type: string
+                      desc: Exact target element reference from the page snapshot, or a unique element selector
+                      optional: true
+                  annotations:
+                    title: Page snapshot
+                    readOnlyHint: true
+                    destructiveHint: false
+                    openWorldHint: true
+                - name: browser_tabs
+                  description: List, create, close, or select a browser tab.
+                  arguments:
+                    - name: action
+                      type: string
+                      desc: Operation to perform
+                    - name: index
+                      type: number
+                      desc: Tab index, used for close/select. If omitted for close, current tab is closed.
+                      optional: true
+                    - name: url
+                      type: string
+                      desc: URL to navigate to in the new tab, used for new.
+                      optional: true
+                  annotations:
+                    title: Manage tabs
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_take_screenshot
+                  description: Take a screenshot of the current page. You can't perform actions based on the screenshot, use browser_snapshot for actions.
+                  arguments:
+                    - name: type
+                      type: string
+                      desc: Image format for the screenshot. Default is png.
+                    - name: element
+                      type: string
+                      desc: Human-readable element description used to obtain permission to interact with the element
+                      optional: true
+                    - name: filename
+                      type: string
+                      desc: File name to save the screenshot to. Defaults to `page-{timestamp}.{png|jpeg}` if not specified. Prefer relative file names to stay within the output directory.
+                      optional: true
+                    - name: fullPage
+                      type: boolean
+                      desc: When true, takes a screenshot of the full scrollable page, instead of the currently visible viewport. Cannot be used with element screenshots.
+                      optional: true
+                    - name: target
+                      type: string
+                      desc: Exact target element reference from the page snapshot, or a unique element selector
+                      optional: true
+                  annotations:
+                    title: Take a screenshot
+                    readOnlyHint: true
+                    destructiveHint: false
+                    openWorldHint: true
+                - name: browser_type
+                  description: Type text into editable element
+                  arguments:
+                    - name: target
+                      type: string
+                      desc: Exact target element reference from the page snapshot, or a unique element selector
+                    - name: text
+                      type: string
+                      desc: Text to type into the element
+                    - name: element
+                      type: string
+                      desc: Human-readable element description used to obtain permission to interact with the element
+                      optional: true
+                    - name: slowly
+                      type: boolean
+                      desc: Whether to type one character at a time. Useful for triggering key handlers in the page. By default entire text is filled in at once.
+                      optional: true
+                    - name: submit
+                      type: boolean
+                      desc: Whether to submit entered text (press Enter after)
+                      optional: true
+                  annotations:
+                    title: Type text
+                    readOnlyHint: false
+                    destructiveHint: true
+                    openWorldHint: true
+                - name: browser_wait_for
+                  description: Wait for text to appear or disappear or a specified time to pass
+                  arguments:
+                    - name: text
+                      type: string
+                      desc: The text to wait for
+                      optional: true
+                    - name: textGone
+                      type: string
+                      desc: The text to wait for to disappear
+                      optional: true
+                    - name: time
+                      type: number
+                      desc: The time to wait in seconds
+                      optional: true
+                  annotations:
+                    title: Wait for
+                    readOnlyHint: true
+                    destructiveHint: false
+                    openWorldHint: true
+            metadata:
+                pulls: 1506157
+                stars: 32
+                githubStars: 31922
+                category: devops
+                tags:
+                    - playwright
+                    - devops
+                license: Apache License 2.0
+                owner: microsoft
+    - type: image
+      config:
+        org: jwill9999
+        url: https://sonarcloud.io
+      secrets: default
+      image: mcp/sonarqube@sha256:3e33c8beed9987fdb34288bcde40afc83746fb04e0c3f603cbc1cc6463a6f5c2
+      snapshot:
+        server:
+            name: sonarqube
+            type: server
+            image: mcp/sonarqube@sha256:3e33c8beed9987fdb34288bcde40afc83746fb04e0c3f603cbc1cc6463a6f5c2
+            description: Interact with SonarQube Cloud, Server and Community build over the web API. Analyze code to identify quality and security issues.
+            title: SonarQube
+            icon: https://avatars.githubusercontent.com/u/545988?s=200&v=4
+            readme: http://desktop.docker.com/mcp/catalog/v3/readme/sonarqube.md
+            remote: {}
+            secrets:
+                - name: sonarqube.token
+                  env: SONARQUBE_TOKEN
+            env:
+                - name: SONARQUBE_URL
+                  value: '{{sonarqube.url}}'
+                - name: SONARQUBE_ORG
+                  value: '{{sonarqube.org}}'
+            tools:
+                - name: analyze_code_snippet
+                  description: Analyze a file or code snippet with SonarQube analyzers to identify code quality and security issues
+                  arguments:
+                    - name: language
+                      type: string
+                      desc: Language of the code snippet
+                    - name: code_snippet
+                      type: string
+                      desc: Code snippet to analyze
+                - name: analyze_file_list
+                  description: Analyze files in the current working directory using SonarQube for IDE
+                  arguments:
+                    - name: file_absolute_paths
+                      type: array
+                      desc: List of absolute file paths to analyze
+                - name: toggle_automatic_analysis
+                  description: Enable or disable SonarQube for IDE automatic analysis
+                  arguments:
+                    - name: enabled
+                      type: boolean
+                      desc: Enable or disable the automatic analysis
+                - name: search_sonar_issues_in_projects
+                  description: Search for SonarQube issues in my organization's projects
+                  arguments:
+                    - name: projects
+                      type: array
+                      desc: An optional list of Sonar projects to look in
+                    - name: pullRequestId
+                      type: string
+                      desc: The identifier of the Pull Request to look in
+                    - name: severities
+                      type: string
+                      desc: 'An optional list of severities to filter by, separated by a comma. Possible values: INFO, LOW, MEDIUM, HIGH, BLOCKER'
+                    - name: page
+                      type: number
+                      desc: An optional page number. Defaults to 1
+                    - name: pageSize
+                      type: number
+                      desc: An optional page size. Must be greater than 0 and less than or equal to 500. Defaults to 100
+                - name: change_sonar_issue_status
+                  description: Change the status of a SonarQube issue
+                  arguments:
+                    - name: issue_key
+                      type: string
+                      desc: Key of the issue to modify
+                    - name: transition
+                      type: string
+                      desc: Transition to apply to the issue
+                - name: search_my_sonarqube_projects
+                  description: Find SonarQube projects. The response is paginated
+                  arguments:
+                    - name: page
+                      type: string
+                      desc: An optional page number. Defaults to 1
+                - name: list_quality_gates
+                  description: List all quality gates in my SonarQube
+                  arguments: []
+                - name: get_project_quality_gate_status
+                  description: Get the quality gate status for a project
+                  arguments:
+                    - name: analysisId
+                      type: string
+                      desc: The optional analysis ID to get the status for
+                    - name: branch
+                      type: string
+                      desc: The optional branch key to get the status for
+                    - name: projectId
+                      type: string
+                      desc: The optional project ID
+                    - name: projectKey
+                      type: string
+                      desc: The optional project key to get the status for
+                    - name: pullRequest
+                      type: string
+                      desc: The optional pull request ID to get the status for
+                - name: show_rule
+                  description: Shows detailed information about a SonarQube rule
+                  arguments:
+                    - name: key
+                      type: string
+                      desc: Rule key
+                - name: list_rule_repositories
+                  description: List rule repositories available in SonarQube
+                  arguments:
+                    - name: language
+                      type: string
+                      desc: Optional language key to filter repositories
+                    - name: q
+                      type: string
+                      desc: Optional search query to filter repositories by name or key
+                - name: list_languages
+                  description: List all programming languages supported in this SonarQube instance
+                  arguments:
+                    - name: q
+                      type: string
+                      desc: Optional pattern to match language keys/names against
+                - name: get_component_measures
+                  description: Get SonarQube measures for a project, such as ncloc, complexity, violations, coverage, etc
+                  arguments:
+                    - name: projectKey
+                      type: string
+                      desc: The project key
+                    - name: branch
+                      type: string
+                      desc: The branch to analyze for measures
+                    - name: metricKeys
+                      type: array
+                      desc: The metric keys to retrieve
+                    - name: pullRequest
+                      type: string
+                      desc: The pull request identifier to analyze for measures
+                - name: search_metrics
+                  description: Search for SonarQube metrics
+                  arguments:
+                    - name: page
+                      type: number
+                      desc: '1-based page number (default: 1)'
+                    - name: pageSize
+                      type: number
+                      desc: 'Page size. Must be greater than 0 and less than or equal to 500 (default: 100)'
+                - name: get_raw_source
+                  description: Get source code as raw text from SonarQube. Require 'See Source Code' permission on file
+                  arguments:
+                    - name: key
+                      type: string
+                      desc: File key
+                    - name: branch
+                      type: string
+                      desc: Branch key
+                    - name: pullRequest
+                      type: string
+                      desc: Pull request id
+                - name: get_scm_info
+                  description: Get SCM information of SonarQube source files. Require See Source Code permission on file's project
+                  arguments:
+                    - name: key
+                      type: string
+                      desc: File key
+                    - name: commitsByLine
+                      type: boolean
+                      desc: Group lines by SCM commit if value is false, else display commits for each line
+                    - name: from
+                      type: number
+                      desc: First line to return. Starts at 1
+                    - name: to
+                      type: number
+                      desc: Last line to return (inclusive)
+                - name: get_system_health
+                  description: Get the health status of SonarQube Server instance. Returns GREEN, YELLOW, or RED
+                  arguments: []
+                - name: get_system_status
+                  description: Get state information about SonarQube Server. Returns status, version, and id
+                  arguments: []
+                - name: get_system_logs
+                  description: Get SonarQube Server system logs in plain-text format. Requires system administration permission
+                  arguments:
+                    - name: name
+                      type: string
+                      desc: 'Name of the logs to get. Possible values: access, app, ce, deprecation, es, web. Default: app'
+                - name: ping_system
+                  description: Ping the SonarQube Server system to check if it's alive. Returns 'pong' as plain text
+                  arguments: []
+                - name: get_system_info
+                  description: Get detailed information about SonarQube Server system configuration including JVM state, database, search indexes, and settings. Requires 'Administer' permissions
+                  arguments: []
+                - name: create_webhook
+                  description: Create a new webhook for the SonarQube organization or project. Requires 'Administer' permission
+                  arguments:
+                    - name: name
+                      type: string
+                      desc: Name of the webhook
+                    - name: url
+                      type: string
+                      desc: Server endpoint that will receive the webhook payload
+                    - name: project
+                      type: string
+                      desc: The key of the project that will own the webhook
+                    - name: secret
+                      type: string
+                      desc: If provided, secret will be used as the key to generate the HMAC hex digest value
+                - name: list_webhooks
+                  description: List all webhooks for the SonarQube organization or project. Requires 'Administer' permission
+                  arguments:
+                    - name: project
+                      type: string
+                      desc: Optional project key to list project-specific webhooks
+                - name: list_portfolios
+                  description: List portfolios available in SonarQube with filtering and pagination options
+                  arguments:
+                    - name: enterpriseId
+                      type: string
+                      desc: Enterprise uuid (SonarQube Cloud only)
+                    - name: q
+                      type: string
+                      desc: Search query to filter portfolios by name
+                    - name: favorite
+                      type: boolean
+                      desc: If true, only returns favorite portfolios
+                    - name: draft
+                      type: boolean
+                      desc: If true, only returns drafts created by the logged-in user (SonarQube Cloud only)
+                    - name: pageIndex
+                      type: number
+                      desc: 'Index of the page to fetch (default: 1)'
+                    - name: pageSize
+                      type: number
+                      desc: Size of the page to fetch
+                - name: list_enterprises
+                  description: List the enterprises available in SonarQube Cloud that you have access to
+                  arguments:
+                    - name: enterpriseKey
+                      type: string
+                      desc: Optional enterprise key to filter results
+                - name: search_dependency_risks
+                  description: Search for software composition analysis issues (dependency risks) of a SonarQube project
+                  arguments:
+                    - name: projectKey
+                      type: string
+                      desc: Project key
+                    - name: branchKey
+                      type: string
+                      desc: The branch key
+                    - name: pullRequestKey
+                      type: string
+                      desc: The pull request key
+            config:
+                - description: Configure the connection to SonarQube
+                  name: sonarqube
+                  properties:
+                    org:
+                        description: Organization key for SonarQube Cloud, not required for SonarQube Server or Community Build
+                        type: string
+                    url:
+                        description: URL of the SonarQube instance, to provide only for SonarQube Server or Community Build
+                        type: string
+                  type: object
+            metadata:
+                pulls: 424391
+                stars: 19
+                githubStars: 544
+                category: productivity
+                tags:
+                    - sonarqube
+                license: Other
+                owner: SonarSource
+    - type: image
+      secrets: default
+      image: mcp/context7@sha256:1174e6a29634a83b2be93ac1fefabf63265f498c02c72201fe3464e687dd8836
+      snapshot:
+        server:
+            name: context7
+            type: server
+            image: mcp/context7@sha256:1174e6a29634a83b2be93ac1fefabf63265f498c02c72201fe3464e687dd8836
+            description: Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors.
+            title: Context7
+            icon: https://avatars.githubusercontent.com/u/74989412?s=200&v=4
+            readme: http://desktop.docker.com/mcp/catalog/v3/readme/context7.md
+            remote: {}
+            env:
+                - name: MCP_TRANSPORT
+                  value: stdio
+            tools:
+                - name: get-library-docs
+                  description: Fetches up-to-date documentation for a library. You must call 'resolve-library-id' first to obtain the exact Context7-compatible library ID required to use this tool, UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query.
+                  arguments:
+                    - name: context7CompatibleLibraryID
+                      type: string
+                      desc: Exact Context7-compatible library ID (e.g., '/mongodb/docs', '/vercel/next.js', '/supabase/supabase', '/vercel/next.js/v14.3.0-canary.87') retrieved from 'resolve-library-id' or directly from user query in the format '/org/project' or '/org/project/version'.
+                    - name: tokens
+                      type: number
+                      desc: 'Maximum number of tokens of documentation to retrieve (default: 10000). Higher values provide more context but consume more tokens.'
+                      optional: true
+                    - name: topic
+                      type: string
+                      desc: Topic to focus documentation on (e.g., 'hooks', 'routing').
+                      optional: true
+                - name: resolve-library-id
+                  description: |-
+                    Resolves a package/product name to a Context7-compatible library ID and returns a list of matching libraries.
+
+                    You MUST call this function before 'get-library-docs' to obtain a valid Context7-compatible library ID UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query.
+
+                    Selection Process:
+                    1. Analyze the query to understand what library/package the user is looking for
+                    2. Return the most relevant match based on:
+                    - Name similarity to the query (exact matches prioritized)
+                    - Description relevance to the query's intent
+                    - Documentation coverage (prioritize libraries with higher Code Snippet counts)
+                    - Trust score (consider libraries with scores of 7-10 more authoritative)
+
+                    Response Format:
+                    - Return the selected library ID in a clearly marked section
+                    - Provide a brief explanation for why this library was chosen
+                    - If multiple good matches exist, acknowledge this but proceed with the most relevant one
+                    - If no good matches exist, clearly state this and suggest query refinements
+
+                    For ambiguous queries, request clarification before proceeding with a best-guess match.
+                  arguments:
+                    - name: libraryName
+                      type: string
+                      desc: Library name to search for and retrieve a Context7-compatible library ID.
+            metadata:
+                pulls: 410082
+                stars: 23
+                githubStars: 54323
+                category: devops
+                tags:
+                    - context7
+                    - devops
+                license: MIT License
+                owner: upstash
+    - type: image
+      secrets: default
+      image: mcp/notion@sha256:4de8eb0de33402fcbd3740b4f4039918e4893155c7ea833c7a0c472001b88367
+      snapshot:
+        server:
+            name: notion
+            type: server
+            image: mcp/notion@sha256:4de8eb0de33402fcbd3740b4f4039918e4893155c7ea833c7a0c472001b88367
+            description: Official Notion MCP Server.
+            title: Notion
+            icon: https://avatars.githubusercontent.com/u/4792552?s=200&v=4
+            readme: http://desktop.docker.com/mcp/catalog/v3/readme/notion.md
+            remote: {}
+            secrets:
+                - name: notion.internal_integration_token
+                  env: INTERNAL_INTEGRATION_TOKEN
+            env:
+                - name: OPENAPI_MCP_HEADERS
+                  value: '{"Authorization": "Bearer $INTERNAL_INTEGRATION_TOKEN", "Notion-Version": "2022-06-28"}'
+            tools:
+                - name: API-create-a-comment
+                  description: |-
+                    Notion | Create comment
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: parent
+                      type: string
+                      desc: ""
+                    - name: rich_text
+                      type: array
+                      items:
+                        type: string
+                      desc: ""
+                  annotations:
+                    title: Create A Comment
+                    destructiveHint: true
+                - name: API-create-a-data-source
+                  description: |-
+                    Notion | Create a data source
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: parent
+                      type: string
+                      desc: ""
+                    - name: properties
+                      type: string
+                      desc: ""
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: title
+                      type: array
+                      items:
+                        type: string
+                      desc: ""
+                      optional: true
+                  annotations:
+                    title: Create A Data Source
+                    destructiveHint: true
+                - name: API-delete-a-block
+                  description: |-
+                    Notion | Delete a block
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: block_id
+                      type: string
+                      desc: Identifier for a Notion block
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                  annotations:
+                    title: Delete A Block
+                    destructiveHint: true
+                - name: API-get-block-children
+                  description: |-
+                    Notion | Retrieve block children
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: block_id
+                      type: string
+                      desc: Identifier for a [block](ref:block)
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: page_size
+                      type: integer
+                      desc: 'The number of items from the full list desired in the response. Maximum: 100'
+                      optional: true
+                    - name: start_cursor
+                      type: string
+                      desc: If supplied, this endpoint will return a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results.
+                      optional: true
+                  annotations:
+                    title: Get Block Children
+                    readOnlyHint: true
+                - name: API-get-self
+                  description: |-
+                    Notion | Retrieve your token's bot user
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                  annotations:
+                    title: Get Self
+                    readOnlyHint: true
+                - name: API-get-user
+                  description: |-
+                    Notion | Retrieve a user
+                    Error Responses:
+                    400: 400
+                  arguments:
+                    - name: user_id
+                      type: string
+                      desc: ""
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                  annotations:
+                    title: Get User
+                    readOnlyHint: true
+                - name: API-get-users
+                  description: |-
+                    Notion | List all users
+                    Error Responses:
+                    400: 400
+                  arguments:
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: page_size
+                      type: integer
+                      desc: 'The number of items from the full list desired in the response. Maximum: 100'
+                      optional: true
+                    - name: start_cursor
+                      type: string
+                      desc: If supplied, this endpoint will return a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results.
+                      optional: true
+                  annotations:
+                    title: Get Users
+                    readOnlyHint: true
+                - name: API-list-data-source-templates
+                  description: |-
+                    Notion | List templates in a data source
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: data_source_id
+                      type: string
+                      desc: Identifier for a Notion data source
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: page_size
+                      type: integer
+                      desc: ""
+                      optional: true
+                    - name: start_cursor
+                      type: string
+                      desc: ""
+                      optional: true
+                  annotations:
+                    title: List Data Source Templates
+                    readOnlyHint: true
+                - name: API-move-page
+                  description: |-
+                    Notion | Move a page
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: page_id
+                      type: string
+                      desc: Identifier for a Notion page
+                    - name: parent
+                      type: string
+                      desc: ""
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                  annotations:
+                    title: Move Page
+                    destructiveHint: true
+                - name: API-patch-block-children
+                  description: |-
+                    Notion | Append block children
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: block_id
+                      type: string
+                      desc: Identifier for a [block](ref:block). Also accepts a [page](ref:page) ID.
+                    - name: children
+                      type: array
+                      items:
+                        type: string
+                      desc: Child content to append to a container block as an array of [block objects](ref:block)
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: after
+                      type: string
+                      desc: The ID of the existing block that the new block should be appended after.
+                      optional: true
+                  annotations:
+                    title: Patch Block Children
+                    destructiveHint: true
+                - name: API-patch-page
+                  description: |-
+                    Notion | Update page properties
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: page_id
+                      type: string
+                      desc: The identifier for the Notion page to be updated.
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: archived
+                      type: boolean
+                      desc: ""
+                      optional: true
+                    - name: cover
+                      type: string
+                      desc: ""
+                      optional: true
+                    - name: icon
+                      type: string
+                      desc: ""
+                      optional: true
+                    - name: in_trash
+                      type: boolean
+                      desc: Set to true to delete a block. Set to false to restore a block.
+                      optional: true
+                    - name: properties
+                      type: string
+                      desc: ""
+                      optional: true
+                  annotations:
+                    title: Patch Page
+                    destructiveHint: true
+                - name: API-post-page
+                  description: |-
+                    Notion | Create a page
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: parent
+                      type: string
+                      desc: ""
+                    - name: properties
+                      type: string
+                      desc: ""
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: children
+                      type: array
+                      items:
+                        type: string
+                      desc: The content to be rendered on the new page, represented as an array of [block objects](https://developers.notion.com/reference/block).
+                      optional: true
+                    - name: cover
+                      type: string
+                      desc: The cover image of the new page, represented as a [file object](https://developers.notion.com/reference/file-object).
+                      optional: true
+                    - name: icon
+                      type: string
+                      desc: The icon of the new page. Either an [emoji object](https://developers.notion.com/reference/emoji-object) or an [external file object](https://developers.notion.com/reference/file-object)..
+                      optional: true
+                  annotations:
+                    title: Post Page
+                    destructiveHint: true
+                - name: API-post-search
+                  description: |-
+                    Notion | Search by title
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: filter
+                      type: string
+                      desc: ""
+                      optional: true
+                    - name: page_size
+                      type: integer
+                      desc: 'The number of items from the full list to include in the response. Maximum: `100`.'
+                      optional: true
+                    - name: query
+                      type: string
+                      desc: The text that the API compares page and database titles against.
+                      optional: true
+                    - name: sort
+                      type: string
+                      desc: ""
+                      optional: true
+                    - name: start_cursor
+                      type: string
+                      desc: A `cursor` value returned in a previous response that If supplied, limits the response to results starting after the `cursor`. If not supplied, then the first page of results is returned. Refer to [pagination](https://developers.notion.com/reference/intro#pagination) for more details.
+                      optional: true
+                  annotations:
+                    title: Post Search
+                    destructiveHint: true
+                - name: API-query-data-source
+                  description: |-
+                    Notion | Query a data source
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: data_source_id
+                      type: string
+                      desc: Identifier for a Notion data source (database)
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: archived
+                      type: boolean
+                      desc: ""
+                      optional: true
+                    - name: filter
+                      type: string
+                      desc: ""
+                      optional: true
+                    - name: filter_properties
+                      type: array
+                      items:
+                        type: string
+                      desc: A list of page property value IDs to limit the response
+                      optional: true
+                    - name: in_trash
+                      type: boolean
+                      desc: ""
+                      optional: true
+                    - name: page_size
+                      type: integer
+                      desc: ""
+                      optional: true
+                    - name: sorts
+                      type: array
+                      items:
+                        type: string
+                      desc: ""
+                      optional: true
+                    - name: start_cursor
+                      type: string
+                      desc: ""
+                      optional: true
+                  annotations:
+                    title: Query Data Source
+                    destructiveHint: true
+                - name: API-retrieve-a-block
+                  description: |-
+                    Notion | Retrieve a block
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: block_id
+                      type: string
+                      desc: Identifier for a Notion block
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                  annotations:
+                    title: Retrieve A Block
+                    readOnlyHint: true
+                - name: API-retrieve-a-comment
+                  description: |-
+                    Notion | Retrieve comments
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: block_id
+                      type: string
+                      desc: Identifier for a Notion block or page
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: page_size
+                      type: integer
+                      desc: 'The number of items from the full list desired in the response. Maximum: 100'
+                      optional: true
+                    - name: start_cursor
+                      type: string
+                      desc: If supplied, this endpoint will return a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results.
+                      optional: true
+                  annotations:
+                    title: Retrieve A Comment
+                    readOnlyHint: true
+                - name: API-retrieve-a-data-source
+                  description: |-
+                    Notion | Retrieve a data source
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: data_source_id
+                      type: string
+                      desc: Identifier for a Notion data source
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                  annotations:
+                    title: Retrieve A Data Source
+                    readOnlyHint: true
+                - name: API-retrieve-a-database
+                  description: |-
+                    Notion | Retrieve a database
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: database_id
+                      type: string
+                      desc: Identifier for a Notion database
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                  annotations:
+                    title: Retrieve A Database
+                    readOnlyHint: true
+                - name: API-retrieve-a-page
+                  description: |-
+                    Notion | Retrieve a page
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: page_id
+                      type: string
+                      desc: Identifier for a Notion page
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: filter_properties
+                      type: string
+                      desc: 'A list of page property value IDs associated with the page. Use this param to limit the response to a specific page property value or values. To retrieve multiple properties, specify each page property ID. For example: `?filter_properties=iAk8&filter_properties=b7dh`.'
+                      optional: true
+                  annotations:
+                    title: Retrieve A Page
+                    readOnlyHint: true
+                - name: API-retrieve-a-page-property
+                  description: |-
+                    Notion | Retrieve a page property item
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: page_id
+                      type: string
+                      desc: Identifier for a Notion page
+                    - name: property_id
+                      type: string
+                      desc: Identifier for a page [property](https://developers.notion.com/reference/page#all-property-values)
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: page_size
+                      type: integer
+                      desc: For paginated properties. The max number of property item objects on a page. The default size is 100
+                      optional: true
+                    - name: start_cursor
+                      type: string
+                      desc: For paginated properties.
+                      optional: true
+                  annotations:
+                    title: Retrieve A Page Property
+                    readOnlyHint: true
+                - name: API-update-a-block
+                  description: |-
+                    Notion | Update a block
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: block_id
+                      type: string
+                      desc: Identifier for a Notion block
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: archived
+                      type: boolean
+                      desc: Set to true to archive (delete) a block. Set to false to un-archive (restore) a block.
+                      optional: true
+                    - name: type
+                      type: string
+                      desc: ""
+                      optional: true
+                  annotations:
+                    title: Update A Block
+                    destructiveHint: true
+                - name: API-update-a-data-source
+                  description: |-
+                    Notion | Update a data source
+                    Error Responses:
+                    400: Bad request
+                  arguments:
+                    - name: data_source_id
+                      type: string
+                      desc: Identifier for a Notion data source
+                    - name: Notion-Version
+                      type: string
+                      desc: The Notion API version
+                      optional: true
+                    - name: description
+                      type: array
+                      items:
+                        type: string
+                      desc: ""
+                      optional: true
+                    - name: properties
+                      type: string
+                      desc: ""
+                      optional: true
+                    - name: title
+                      type: array
+                      items:
+                        type: string
+                      desc: ""
+                      optional: true
+                  annotations:
+                    title: Update A Data Source
+                    destructiveHint: true
+            metadata:
+                pulls: 166466
+                stars: 34
+                githubStars: 4287
+                category: productivity
+                tags:
+                    - notion
+                    - secrets
+                license: MIT License
+                owner: makenotion
+    - type: image
+      secrets: default
+      image: mcp/next-devtools-mcp@sha256:3064e349c266ddae35bf49a0d1d9eb8dd2ec699fb8dddbdab61650e522c9b322
+      snapshot:
+        server:
+            name: next-devtools-mcp
+            type: server
+            image: mcp/next-devtools-mcp@sha256:3064e349c266ddae35bf49a0d1d9eb8dd2ec699fb8dddbdab61650e522c9b322
+            description: next-devtools-mcp is a Model Context Protocol (MCP) server that provides Next.js development tools and utilities for AI coding assistants.
+            title: Next.js DevTools
+            icon: https://avatars.githubusercontent.com/u/14985020?s=200&v=4
+            readme: http://desktop.docker.com/mcp/catalog/v3/readme/next-devtools-mcp.md
+            remote: {}
+            tools:
+                - name: browser_eval
+                  description: |-
+                    Automate and test web applications using Playwright browser automation.
+                    This tool connects to playwright-mcp server and provides access to all Playwright capabilities.
+
+                    CRITICAL FOR PAGE VERIFICATION:
+                    When verifying pages in Next.js projects (especially during upgrades or testing), you MUST use browser automation to load pages
+                    in a real browser instead of curl or simple HTTP requests. This is because:
+                    - Browser automation actually renders the page and executes JavaScript (curl only fetches HTML)
+                    - Detects runtime errors, hydration issues, and client-side problems that curl cannot catch
+                    - Verifies the full user experience, not just HTTP status codes
+                    - Captures browser console errors and warnings via console_messages action
+
+                    IMPORTANT FOR NEXT.JS PROJECTS:
+                    If working with a Next.js application, PRIORITIZE using the 'nextjs_runtime' tool instead of browser console log forwarding.
+                    Next.js has built-in MCP integration that provides superior error reporting, build diagnostics, and runtime information
+                    directly from the Next.js dev server. Only use browser_eval's console_messages action as a fallback when nextjs_runtime
+                    tools are not available or when you specifically need to test client-side browser behavior that Next.js runtime cannot capture.
+
+                    Available actions:
+                    - start: Start browser automation (automatically installs if needed). Verbose logging is always enabled.
+                    - navigate: Navigate to a URL
+                    - click: Click on an element
+                    - type: Type text into an element
+                    - fill_form: Fill multiple form fields at once
+                    - evaluate: Execute JavaScript in browser context
+                    - screenshot: Take a screenshot of the page
+                    - console_messages: Get browser console messages (for Next.js, prefer nextjs_runtime tool instead)
+                    - close: Close the browser
+                    - drag: Perform drag and drop
+                    - upload_file: Upload files
+                    - list_tools: List all available browser automation tools from the server
+
+                    Note: The playwright-mcp server will be automatically installed if not present.
+                  arguments: []
+                - name: enable_cache_components
+                  description: |-
+                    Complete Cache Components setup for Next.js 16.
+
+                    Handles ALL steps for enabling and verifying Cache Components:
+                    - Configuration: Updates cacheComponents flag (experimental in 16.0.0, stable in canary > 16), removes incompatible flags
+                    - Dev Server: Starts dev server with MCP enabled (__NEXT_EXPERIMENTAL_MCP_SERVER=true)
+                    - Error Detection: Loads all routes via browser automation, collects errors using Next.js MCP
+                    - Automated Fixing: Adds Suspense boundaries, "use cache" directives, generateStaticParams, cacheLife profiles, cache tags
+                    - Verification: Validates all routes work with zero errors
+
+                    Key Features:
+                    - One-time dev server start (no restarts needed)
+                    - Automated error detection using Next.js MCP tools
+                    - Browser-based testing with browser automation
+                    - Fast Refresh applies fixes instantly
+                    - Comprehensive fix strategies for all error types
+                    - Support for "use cache", "use cache: private", Suspense boundaries
+                    - Cache invalidation with cacheTag() and cacheLife() configuration
+
+                    Requires:
+                    - Next.js 16.0.0+ (stable or canary only - beta versions are NOT supported)
+                    - Clean working directory preferred
+                    - Browser automation installed (auto-installed if needed)
+
+                    This tool embeds complete knowledge base for:
+                    - Cache Components mechanics
+                    - Error patterns and solutions
+                    - Caching strategies (static vs dynamic)
+                    - Advanced patterns (cacheLife, cacheTag, draft mode)
+                    - Build behavior and prefetching
+                    - Test-driven patterns from 125+ fixtures
+                  arguments: []
+                - name: nextjs_docs
+                  description: |-
+                    Search and retrieve Next.js official documentation.
+                    First searches MCP resources (Next.js 16 knowledge base) for latest information, then falls back to official Next.js documentation if nothing is found.
+                    Provides access to comprehensive Next.js guides, API references, and best practices.
+                  arguments: []
+                - name: nextjs_runtime
+                  description: |-
+                    Interact with a running Next.js development server's MCP endpoint to query runtime information, diagnostics, and internals.
+
+                    WHEN TO USE THIS TOOL - Use proactively in these scenarios:
+
+                    1. **Before implementing ANY changes to the app**: When asked to add, modify, or fix anything in the application:
+                       - "Add a loading state" → Check current component structure and routes first
+                       - "Fix the navigation" → Inspect existing routes and components
+                       - "Update the API endpoint" → Query current routes and data flows
+                       - "Add error handling" → Check runtime errors and component hierarchy
+                       - "Refactor the auth logic" → Inspect current auth implementation and routes
+                       - "Optimize performance" → Check runtime diagnostics and component tree
+                       Use this to understand where changes should be made and what currently exists.
+
+                    2. **For diagnostic and investigation questions**:
+                       - "What's happening?" / "What's going on?" / "Why isn't this working?"
+                       - "Check the errors" / "See what's wrong"
+                       - "What routes are available?" / "Show me the routes"
+                       - "Clear the cache" / "Reset everything"
+                       - Questions about build status, compilation errors, or runtime diagnostics
+
+                    3. **For agentic codebase search**: Use this as FIRST CHOICE for searching the currently running app. If not found, fallback to static codebase search tools.
+
+                    KEY PRINCIPLE: If the request involves the running Next.js application (whether to investigate OR modify it), query the runtime FIRST to understand current state before proceeding.
+
+                    Start by calling action='list_tools' to discover what runtime information is available, then use those tools to gather context.
+
+                    REQUIREMENTS:
+                    - Next.js 16 or later (MCP support was added in v16)
+                    - If you're on Next.js 15 or earlier, use the 'upgrade-nextjs-16' MCP prompt to upgrade first
+
+                    Next.js exposes an MCP (Model Context Protocol) endpoint at /_next/mcp when started with:
+                    - For Next.js < 16: experimental.mcpServer: true in next.config.js, OR __NEXT_EXPERIMENTAL_MCP_SERVER=true environment variable
+                    - For Next.js >= 16: MCP is enabled by default (no configuration needed)
+
+                    This tool allows you to:
+                    1. Discover running Next.js dev servers and their ports
+                    2. List available MCP tools/functions exposed by the Next.js runtime
+                    3. Call those tools to interact with Next.js internals (e.g., get errors,get route info, get logs, runtime diagnostics, etc.)
+
+                    Typical workflow:
+                    1. Use action='discover_servers' to find running Next.js servers (optional - auto-discovery will be attempted)
+                    2. Use action='list_tools' with the discovered port to see available tools and their input schemas
+                    3. Use action='call_tool' with port, toolName, and args (as an object, only if required) to invoke a specific tool
+
+                    IMPORTANT: When calling tools:
+                    - The 'args' parameter MUST be an object (e.g., {key: "value"}), NOT a string
+                    - If a tool doesn't require arguments, OMIT the 'args' parameter entirely - do NOT pass {} or "{}"
+                    - Check the tool's inputSchema from 'list_tools' to see what arguments are required
+
+                    If the MCP endpoint is not available:
+                    1. Check if you're running Next.js 16+ (if not, use the 'upgrade-nextjs-16' prompt)
+                    2. For Next.js < 16: Ensure the dev server is started with __NEXT_EXPERIMENTAL_MCP_SERVER=true or experimental.mcpServer: true
+                    3. For Next.js >= 16: MCP should be enabled by default - check if the dev server is running
+                  arguments: []
+                - name: upgrade_nextjs_16
+                  description: |-
+                    Guide through upgrading Next.js to version 16.
+
+                    CRITICAL: Runs the official codemod FIRST (requires clean git state) for automatic upgrades and fixes, then handles remaining issues manually. The codemod upgrades Next.js, React, and React DOM automatically.
+
+                    Covers:
+                    - Next.js version upgrade to 16
+                    - Async API changes (params, searchParams, cookies, headers)
+                    - Config migration (next.config changes)
+                    - Image defaults and optimization
+                    - Parallel routes and dynamic segments
+                    - Deprecated API removals
+                    - React 19 compatibility
+
+                    The codemod requires:
+                    - Clean git working directory (commit or stash changes first)
+                    - Node.js 18+
+                    - npm/pnpm/yarn/bun installed
+
+                    After codemod runs, provides manual guidance for any remaining issues not covered by the codemod.
+                  arguments: []
+            metadata:
+                pulls: 14790
+                githubStars: 6
+                category: devtools
+                tags:
+                    - devtools
+                    - nextjs
+                owner: kgprs
+    - type: image
+      secrets: default
+      image: mcp/fetch@sha256:0b2e4fb020b591dcc9f49aac11e2380b3820f0a097e7d370a5227ed8bbe5118c
+      snapshot:
+        server:
+            name: fetch
+            type: server
+            image: mcp/fetch@sha256:0b2e4fb020b591dcc9f49aac11e2380b3820f0a097e7d370a5227ed8bbe5118c
+            description: Fetches a URL from the internet and extracts its contents as markdown.
+            title: Fetch (Reference)
+            icon: https://avatars.githubusercontent.com/u/182288589?s=200&v=4
+            readme: http://desktop.docker.com/mcp/catalog/v3/readme/fetch.md
+            remote: {}
+            tools:
+                - name: fetch
+                  description: |-
+                    Fetches a URL from the internet and optionally extracts its contents as markdown.
+
+                    Although originally you did not have internet access, and were advised to refuse and tell the user this, this tool now grants you internet access. Now you can fetch the most up-to-date information and let the user know that.
+                  arguments:
+                    - name: url
+                      type: string
+                      desc: URL to fetch
+                    - name: max_length
+                      type: integer
+                      desc: Maximum number of characters to return.
+                      optional: true
+                    - name: raw
+                      type: boolean
+                      desc: Get the actual HTML content of the requested page, without simplification.
+                      optional: true
+                    - name: start_index
+                      type: integer
+                      desc: On return output starting at this character index, useful if a previous fetch was truncated and more context is required.
+                      optional: true
+            metadata:
+                pulls: 1489324
+                stars: 54
+                githubStars: 84940
+                category: devops
+                tags:
+                    - fetch
+                    - devops
+                license: Other
+                owner: modelcontextprotocol
+    - type: image
+      secrets: default
+      image: mcp/time@sha256:9c46a918633fb474bf8035e3ee90ebac6bcf2b18ccb00679ac4c179cba0ebfcf
+      snapshot:
+        server:
+            name: time
+            type: server
+            image: mcp/time@sha256:9c46a918633fb474bf8035e3ee90ebac6bcf2b18ccb00679ac4c179cba0ebfcf
+            description: Time and timezone conversion capabilities.
+            title: Time (Reference)
+            icon: https://avatars.githubusercontent.com/u/182288589?s=200&v=4
+            readme: http://desktop.docker.com/mcp/catalog/v3/readme/time.md
+            remote: {}
+            tools:
+                - name: convert_time
+                  description: Convert time between timezones
+                  arguments:
+                    - name: source_timezone
+                      type: string
+                      desc: Source IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'UTC' as local timezone if no source timezone provided by the user.
+                    - name: target_timezone
+                      type: string
+                      desc: Target IANA timezone name (e.g., 'Asia/Tokyo', 'America/San_Francisco'). Use 'UTC' as local timezone if no target timezone provided by the user.
+                    - name: time
+                      type: string
+                      desc: Time to convert in 24-hour format (HH:MM)
+                - name: get_current_time
+                  description: Get current time in a specific timezones
+                  arguments:
+                    - name: timezone
+                      type: string
+                      desc: IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'UTC' as local timezone if no timezone provided by the user.
+            metadata:
+                pulls: 672148
+                stars: 8
+                githubStars: 84940
+                category: devops
+                tags:
+                    - time
+                    - devops
+                license: Other
+                owner: modelcontextprotocol
+    - type: image
+      secrets: default
+      image: mcp/sequentialthinking@sha256:cd3174b2ecf37738654cf7671fb1b719a225c40a78274817da00c4241f465e5f
+      snapshot:
+        server:
+            name: sequentialthinking
+            type: server
+            image: mcp/sequentialthinking@sha256:cd3174b2ecf37738654cf7671fb1b719a225c40a78274817da00c4241f465e5f
+            description: Dynamic and reflective problem-solving through thought sequences.
+            title: Sequential Thinking (Reference)
+            icon: https://avatars.githubusercontent.com/u/182288589?s=200&v=4
+            readme: http://desktop.docker.com/mcp/catalog/v3/readme/sequentialthinking.md
+            remote: {}
+            tools:
+                - name: sequentialthinking
+                  description: |-
+                    A detailed tool for dynamic and reflective problem-solving through thoughts.
+                    This tool helps analyze problems through a flexible thinking process that can adapt and evolve.
+                    Each thought can build on, question, or revise previous insights as understanding deepens.
+
+                    When to use this tool:
+                    - Breaking down complex problems into steps
+                    - Planning and design with room for revision
+                    - Analysis that might need course correction
+                    - Problems where the full scope might not be clear initially
+                    - Problems that require a multi-step solution
+                    - Tasks that need to maintain context over multiple steps
+                    - Situations where irrelevant information needs to be filtered out
+
+                    Key features:
+                    - You can adjust total_thoughts up or down as you progress
+                    - You can question or revise previous thoughts
+                    - You can add more thoughts even after reaching what seemed like the end
+                    - You can express uncertainty and explore alternative approaches
+                    - Not every thought needs to build linearly - you can branch or backtrack
+                    - Generates a solution hypothesis
+                    - Verifies the hypothesis based on the Chain of Thought steps
+                    - Repeats the process until satisfied
+                    - Provides a correct answer
+
+                    Parameters explained:
+                    - thought: Your current thinking step, which can include:
+                    * Regular analytical steps
+                    * Revisions of previous thoughts
+                    * Questions about previous decisions
+                    * Realizations about needing more analysis
+                    * Changes in approach
+                    * Hypothesis generation
+                    * Hypothesis verification
+                    - next_thought_needed: True if you need more thinking, even if at what seemed like the end
+                    - thought_number: Current number in sequence (can go beyond initial total if needed)
+                    - total_thoughts: Current estimate of thoughts needed (can be adjusted up/down)
+                    - is_revision: A boolean indicating if this thought revises previous thinking
+                    - revises_thought: If is_revision is true, which thought number is being reconsidered
+                    - branch_from_thought: If branching, which thought number is the branching point
+                    - branch_id: Identifier for the current branch (if any)
+                    - needs_more_thoughts: If reaching end but realizing more thoughts needed
+
+                    You should:
+                    1. Start with an initial estimate of needed thoughts, but be ready to adjust
+                    2. Feel free to question or revise previous thoughts
+                    3. Don't hesitate to add more thoughts if needed, even at the "end"
+                    4. Express uncertainty when present
+                    5. Mark thoughts that revise previous thinking or branch into new paths
+                    6. Ignore information that is irrelevant to the current step
+                    7. Generate a solution hypothesis when appropriate
+                    8. Verify the hypothesis based on the Chain of Thought steps
+                    9. Repeat the process until satisfied with the solution
+                    10. Provide a single, ideally correct answer as the final output
+                    11. Only set next_thought_needed to false when truly done and a satisfactory answer is reached
+                  arguments:
+                    - name: nextThoughtNeeded
+                      type: boolean
+                      desc: Whether another thought step is needed
+                    - name: thought
+                      type: string
+                      desc: Your current thinking step
+                    - name: thoughtNumber
+                      type: integer
+                      desc: Current thought number
+                    - name: totalThoughts
+                      type: integer
+                      desc: Estimated total thoughts needed
+                    - name: branchFromThought
+                      type: integer
+                      desc: Branching point thought number
+                      optional: true
+                    - name: branchId
+                      type: string
+                      desc: Branch identifier
+                      optional: true
+                    - name: isRevision
+                      type: boolean
+                      desc: Whether this revises previous thinking
+                      optional: true
+                    - name: needsMoreThoughts
+                      type: boolean
+                      desc: If more thoughts are needed
+                      optional: true
+                    - name: revisesThought
+                      type: integer
+                      desc: Which thought is being reconsidered
+                      optional: true
+            metadata:
+                pulls: 308906
+                stars: 30
+                githubStars: 84940
+                category: ai
+                tags:
+                    - mcp
+                    - ai
+                license: Other
+                owner: modelcontextprotocol
+    - type: image
+      secrets: default
+      image: mcp/openapi@sha256:26234065b6a786e69088b9b22ec4f9130572704664211e76e9b0887c388186e5
+      snapshot:
+        server:
+            name: openapi
+            type: server
+            image: mcp/openapi@sha256:26234065b6a786e69088b9b22ec4f9130572704664211e76e9b0887c388186e5
+            description: Fetch, validate, and generate code or curl from any OpenAPI or Swagger spec - all from a single URL.
+            title: OpenAPI Toolkit
+            icon: https://raw.githubusercontent.com/lepoco/openapi.client/refs/heads/main/build/nuget.png
+            readme: http://desktop.docker.com/mcp/catalog/v3/readme/openapi.md
+            remote: {}
+            env:
+                - name: MODE
+                  value: '{{openapi.mode}}'
+            tools:
+                - name: create_csharp_snippet
+                  description: Generate a C# code snippet for a given operation ID from a URL OR a raw JSON string or file contents pointing to an OpenAPI or Swagger JSON document.
+                  arguments:
+                    - name: addressOrFileContents
+                      type: string
+                      desc: URL address of the OpenAPI or Swagger JSON document OR raw JSON contents of the OpenAPI or Swagger specification. Can be provided as text or from a file.
+                    - name: baseAddress
+                      type: string
+                      desc: Optional base URL to be used in the generated cURL command.
+                    - name: operationId
+                      type: string
+                      desc: Operation ID for which to create a snippet.
+                - name: generate_curl_command
+                  description: Generate a cURL command for a given operation ID from a URL OR a raw JSON string or file contents pointing to an OpenAPI or Swagger JSON document.
+                  arguments:
+                    - name: addressOrFileContents
+                      type: string
+                      desc: URL address of the OpenAPI or Swagger JSON document OR raw JSON contents of the OpenAPI or Swagger specification. Can be provided as text or from a file.
+                    - name: baseAddress
+                      type: string
+                      desc: Optional base URL to be used in the generated cURL command.
+                    - name: operationId
+                      type: string
+                      desc: Operation ID for which to generate the cURL command.
+                - name: get_known_responses
+                  description: Analyze an OpenAPI or Swagger document provided as a URL OR a raw JSON string or file contents, and list possible HTTP responses (status codes and descriptions) for the specified operation ID.
+                  arguments:
+                    - name: addressOrFileContents
+                      type: string
+                      desc: URL address of the OpenAPI or Swagger JSON document OR raw JSON contents of the OpenAPI or Swagger specification. Can be provided as text or from a file.
+                    - name: operationId
+                      type: string
+                      desc: Operation ID for which to retrieve known responses.
+                - name: get_list_of_operations
+                  description: Retrieve a list of operations (endpoints) from a URL OR a raw JSON string or file contents pointing to an OpenAPI or Swagger JSON document.
+                  arguments:
+                    - name: addressOrFileContents
+                      type: string
+                      desc: URL address of the OpenAPI or Swagger JSON document OR raw JSON contents of the OpenAPI or Swagger specification. Can be provided as text or from a file.
+                - name: validate_document
+                  description: Analyze and validate an OpenAPI or Swagger document provided as a URL OR a raw JSON string or file contents, and list possible errors, issues and problems with specification for the specified operation ID.
+                  arguments:
+                    - name: addressOrFileContents
+                      type: string
+                      desc: URL address of the OpenAPI or Swagger JSON document OR raw JSON contents of the OpenAPI or Swagger specification. Can be provided as text or from a file.
+            config:
+                - description: Configure the connection to OpenAPI Toolkit for MCP
+                  name: openapi
+                  properties:
+                    mode:
+                        type: string
+                  type: object
+            metadata:
+                pulls: 10429
+                stars: 1
+                githubStars: 18
+                category: productivity
+                tags:
+                    - productivity
+                license: MIT License
+                owner: lepoco
+    - type: image
+      secrets: default
+      image: ghcr.io/github/github-mcp-server@sha256:fbec75de11c255213fa08d80fb166abe73d851fff631c51c0079872967720699
+      catalog_ref: mcp/docker-mcp-catalog:latest
+      snapshot:
+        server:
+            name: github-official
+            type: server
+            image: ghcr.io/github/github-mcp-server@sha256:fbec75de11c255213fa08d80fb166abe73d851fff631c51c0079872967720699
+            description: Official GitHub MCP Server, by GitHub. Provides seamless integration with GitHub APIs, enabling advanced automation and interaction capabilities for developers and tools.
+            title: GitHub Official
+            icon: https://avatars.githubusercontent.com/u/9919?s=200&v=4
+            readme: https://desktop.docker.com/mcp/catalog/v3/readme/github-official.md
+            remote: {}
+            oauth:
+                providers:
+                    - provider: github
+                      secret: github.personal_access_token
+                      env: GITHUB_PERSONAL_ACCESS_TOKEN
+            secrets:
+                - name: github.personal_access_token
+                  env: GITHUB_PERSONAL_ACCESS_TOKEN
+            allowHosts:
+                - api.github.com:443
+                - github.com:443
+                - raw.githubusercontent.com:443
+            tools:
+                - name: add_comment_to_pending_review
+                  description: Add review comment to the requester's latest pending pull request review. A pending review needs to already exist to call this (check with the user if not sure).
+                  arguments:
+                    - name: body
+                      type: string
+                      desc: The text of the review comment
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: path
+                      type: string
+                      desc: The relative path to the file that necessitates a comment
+                    - name: pullNumber
+                      type: number
+                      desc: Pull request number
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: subjectType
+                      type: string
+                      desc: The level at which the comment is targeted
+                    - name: line
+                      type: number
+                      desc: The line of the blob in the pull request diff that the comment applies to. For multi-line comments, the last line of the range
+                      optional: true
+                    - name: side
+                      type: string
+                      desc: The side of the diff to comment on. LEFT indicates the previous state, RIGHT indicates the new state
+                      optional: true
+                    - name: startLine
+                      type: number
+                      desc: For multi-line comments, the first line of the range that the comment applies to
+                      optional: true
+                    - name: startSide
+                      type: string
+                      desc: For multi-line comments, the starting side of the diff that the comment applies to. LEFT indicates the previous state, RIGHT indicates the new state
+                      optional: true
+                  annotations:
+                    title: Add review comment to the requester's latest pending pull request review
+                - name: add_issue_comment
+                  description: Add a comment to a specific issue in a GitHub repository. Use this tool to add comments to pull requests as well (in this case pass pull request number as issue_number), but only if user is not asking specifically to add review comments.
+                  arguments:
+                    - name: body
+                      type: string
+                      desc: Comment content
+                    - name: issue_number
+                      type: number
+                      desc: Issue number to comment on
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                  annotations:
+                    title: Add comment to issue
+                - name: assign_copilot_to_issue
+                  description: |-
+                    Assign Copilot to a specific issue in a GitHub repository.
+
+                    This tool can help with the following outcomes:
+                    - a Pull Request created with source code changes to resolve the issue
+
+
+                    More information can be found at:
+                    - https://docs.github.com/en/copilot/using-github-copilot/using-copilot-coding-agent-to-work-on-tasks/about-assigning-tasks-to-copilot
+                  arguments:
+                    - name: issueNumber
+                      type: number
+                      desc: Issue number
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                  annotations:
+                    title: Assign Copilot to issue
+                    idempotentHint: true
+                - name: create_branch
+                  description: Create a new branch in a GitHub repository
+                  arguments:
+                    - name: branch
+                      type: string
+                      desc: Name for new branch
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: from_branch
+                      type: string
+                      desc: Source branch (defaults to repo default)
+                      optional: true
+                  annotations:
+                    title: Create branch
+                - name: create_or_update_file
+                  description: Create or update a single file in a GitHub repository. If updating, you must provide the SHA of the file you want to update. Use this tool to create or update a file in a GitHub repository remotely; do not use it for local file operations.
+                  arguments:
+                    - name: branch
+                      type: string
+                      desc: Branch to create/update the file in
+                    - name: content
+                      type: string
+                      desc: Content of the file
+                    - name: message
+                      type: string
+                      desc: Commit message
+                    - name: owner
+                      type: string
+                      desc: Repository owner (username or organization)
+                    - name: path
+                      type: string
+                      desc: Path where to create/update the file
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: sha
+                      type: string
+                      desc: Required if updating an existing file. The blob SHA of the file being replaced.
+                      optional: true
+                  annotations:
+                    title: Create or update file
+                - name: create_pull_request
+                  description: Create a new pull request in a GitHub repository.
+                  arguments:
+                    - name: base
+                      type: string
+                      desc: Branch to merge into
+                    - name: head
+                      type: string
+                      desc: Branch containing changes
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: title
+                      type: string
+                      desc: PR title
+                    - name: body
+                      type: string
+                      desc: PR description
+                      optional: true
+                    - name: draft
+                      type: boolean
+                      desc: Create as draft PR
+                      optional: true
+                    - name: maintainer_can_modify
+                      type: boolean
+                      desc: Allow maintainer edits
+                      optional: true
+                  annotations:
+                    title: Open new pull request
+                - name: create_repository
+                  description: Create a new GitHub repository in your account or specified organization
+                  arguments:
+                    - name: name
+                      type: string
+                      desc: Repository name
+                    - name: autoInit
+                      type: boolean
+                      desc: Initialize with README
+                      optional: true
+                    - name: description
+                      type: string
+                      desc: Repository description
+                      optional: true
+                    - name: organization
+                      type: string
+                      desc: Organization to create the repository in (omit to create in your personal account)
+                      optional: true
+                    - name: private
+                      type: boolean
+                      desc: Whether repo should be private
+                      optional: true
+                  annotations:
+                    title: Create repository
+                - name: delete_file
+                  description: Delete a file from a GitHub repository
+                  arguments:
+                    - name: branch
+                      type: string
+                      desc: Branch to delete the file from
+                    - name: message
+                      type: string
+                      desc: Commit message
+                    - name: owner
+                      type: string
+                      desc: Repository owner (username or organization)
+                    - name: path
+                      type: string
+                      desc: Path to the file to delete
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                  annotations:
+                    title: Delete file
+                    destructiveHint: true
+                - name: fork_repository
+                  description: Fork a GitHub repository to your account or specified organization
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: organization
+                      type: string
+                      desc: Organization to fork to
+                      optional: true
+                  annotations:
+                    title: Fork repository
+                - name: get_commit
+                  description: Get details for a commit from a GitHub repository
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: sha
+                      type: string
+                      desc: Commit SHA, branch name, or tag name
+                    - name: include_diff
+                      type: boolean
+                      desc: Whether to include file diffs and stats in the response. Default is true.
+                      optional: true
+                    - name: page
+                      type: number
+                      desc: Page number for pagination (min 1)
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                  annotations:
+                    title: Get commit details
+                    readOnlyHint: true
+                - name: get_file_contents
+                  description: Get the contents of a file or directory from a GitHub repository
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner (username or organization)
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: path
+                      type: string
+                      desc: Path to file/directory (directories must end with a slash '/')
+                      optional: true
+                    - name: ref
+                      type: string
+                      desc: Accepts optional git refs such as `refs/tags/{tag}`, `refs/heads/{branch}` or `refs/pull/{pr_number}/head`
+                      optional: true
+                    - name: sha
+                      type: string
+                      desc: Accepts optional commit SHA. If specified, it will be used instead of ref
+                      optional: true
+                  annotations:
+                    title: Get file or directory contents
+                    readOnlyHint: true
+                - name: get_label
+                  description: Get a specific label from a repository.
+                  arguments:
+                    - name: name
+                      type: string
+                      desc: Label name.
+                    - name: owner
+                      type: string
+                      desc: Repository owner (username or organization name)
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                  annotations:
+                    title: Get a specific label from a repository.
+                    readOnlyHint: true
+                - name: get_latest_release
+                  description: Get the latest release in a GitHub repository
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                  annotations:
+                    title: Get latest release
+                    readOnlyHint: true
+                - name: get_me
+                  description: Get details of the authenticated GitHub user. Use this when a request is about the user's own profile for GitHub. Or when information is missing to build other tool calls.
+                  arguments: []
+                  annotations:
+                    title: Get my user profile
+                    readOnlyHint: true
+                - name: get_release_by_tag
+                  description: Get a specific release by its tag name in a GitHub repository
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: tag
+                      type: string
+                      desc: Tag name (e.g., 'v1.0.0')
+                  annotations:
+                    title: Get a release by tag name
+                    readOnlyHint: true
+                - name: get_tag
+                  description: Get details about a specific git tag in a GitHub repository
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: tag
+                      type: string
+                      desc: Tag name
+                  annotations:
+                    title: Get tag details
+                    readOnlyHint: true
+                - name: get_team_members
+                  description: Get member usernames of a specific team in an organization. Limited to organizations accessible with current credentials
+                  arguments:
+                    - name: org
+                      type: string
+                      desc: Organization login (owner) that contains the team.
+                    - name: team_slug
+                      type: string
+                      desc: Team slug
+                  annotations:
+                    title: Get team members
+                    readOnlyHint: true
+                - name: get_teams
+                  description: Get details of the teams the user is a member of. Limited to organizations accessible with current credentials
+                  arguments:
+                    - name: user
+                      type: string
+                      desc: Username to get teams for. If not provided, uses the authenticated user.
+                      optional: true
+                  annotations:
+                    title: Get teams
+                    readOnlyHint: true
+                - name: issue_read
+                  description: Get information about a specific issue in a GitHub repository.
+                  arguments:
+                    - name: issue_number
+                      type: number
+                      desc: The number of the issue
+                    - name: method
+                      type: string
+                      desc: |
+                        The read operation to perform on a single issue.
+                        Options are:
+                        1. get - Get details of a specific issue.
+                        2. get_comments - Get issue comments.
+                        3. get_sub_issues - Get sub-issues of the issue.
+                        4. get_labels - Get labels assigned to the issue.
+                    - name: owner
+                      type: string
+                      desc: The owner of the repository
+                    - name: repo
+                      type: string
+                      desc: The name of the repository
+                    - name: page
+                      type: number
+                      desc: Page number for pagination (min 1)
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                  annotations:
+                    title: Get issue details
+                    readOnlyHint: true
+                - name: issue_write
+                  description: Create a new or update an existing issue in a GitHub repository.
+                  arguments:
+                    - name: method
+                      type: string
+                      desc: |
+                        Write operation to perform on a single issue.
+                        Options are:
+                        - 'create' - creates a new issue.
+                        - 'update' - updates an existing issue.
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: assignees
+                      type: array
+                      items:
+                        type: string
+                      desc: Usernames to assign to this issue
+                      optional: true
+                    - name: body
+                      type: string
+                      desc: Issue body content
+                      optional: true
+                    - name: duplicate_of
+                      type: number
+                      desc: Issue number that this issue is a duplicate of. Only used when state_reason is 'duplicate'.
+                      optional: true
+                    - name: issue_number
+                      type: number
+                      desc: Issue number to update
+                      optional: true
+                    - name: labels
+                      type: array
+                      items:
+                        type: string
+                      desc: Labels to apply to this issue
+                      optional: true
+                    - name: milestone
+                      type: number
+                      desc: Milestone number
+                      optional: true
+                    - name: state
+                      type: string
+                      desc: New state
+                      optional: true
+                    - name: state_reason
+                      type: string
+                      desc: Reason for the state change. Ignored unless state is changed.
+                      optional: true
+                    - name: title
+                      type: string
+                      desc: Issue title
+                      optional: true
+                    - name: type
+                      type: string
+                      desc: Type of this issue. Only use if the repository has issue types configured. Use list_issue_types tool to get valid type values for the organization. If the repository doesn't support issue types, omit this parameter.
+                      optional: true
+                  annotations:
+                    title: Create or update issue.
+                - name: list_branches
+                  description: List branches in a GitHub repository
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: page
+                      type: number
+                      desc: Page number for pagination (min 1)
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                  annotations:
+                    title: List branches
+                    readOnlyHint: true
+                - name: list_commits
+                  description: Get list of commits of a branch in a GitHub repository. Returns at least 30 results per page by default, but can return more if specified using the perPage parameter (up to 100).
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: author
+                      type: string
+                      desc: Author username or email address to filter commits by
+                      optional: true
+                    - name: page
+                      type: number
+                      desc: Page number for pagination (min 1)
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                    - name: sha
+                      type: string
+                      desc: Commit SHA, branch or tag name to list commits of. If not provided, uses the default branch of the repository. If a commit SHA is provided, will list commits up to that SHA.
+                      optional: true
+                  annotations:
+                    title: List commits
+                    readOnlyHint: true
+                - name: list_issue_types
+                  description: List supported issue types for repository owner (organization).
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: The organization owner of the repository
+                  annotations:
+                    title: List available issue types
+                    readOnlyHint: true
+                - name: list_issues
+                  description: List issues in a GitHub repository. For pagination, use the 'endCursor' from the previous response's 'pageInfo' in the 'after' parameter.
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: after
+                      type: string
+                      desc: Cursor for pagination. Use the endCursor from the previous page's PageInfo for GraphQL APIs.
+                      optional: true
+                    - name: direction
+                      type: string
+                      desc: Order direction. If provided, the 'orderBy' also needs to be provided.
+                      optional: true
+                    - name: labels
+                      type: array
+                      items:
+                        type: string
+                      desc: Filter by labels
+                      optional: true
+                    - name: orderBy
+                      type: string
+                      desc: Order issues by field. If provided, the 'direction' also needs to be provided.
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                    - name: since
+                      type: string
+                      desc: Filter by date (ISO 8601 timestamp)
+                      optional: true
+                    - name: state
+                      type: string
+                      desc: Filter by state, by default both open and closed issues are returned when not provided
+                      optional: true
+                  annotations:
+                    title: List issues
+                    readOnlyHint: true
+                - name: list_pull_requests
+                  description: List pull requests in a GitHub repository. If the user specifies an author, then DO NOT use this tool and use the search_pull_requests tool instead.
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: base
+                      type: string
+                      desc: Filter by base branch
+                      optional: true
+                    - name: direction
+                      type: string
+                      desc: Sort direction
+                      optional: true
+                    - name: head
+                      type: string
+                      desc: Filter by head user/org and branch
+                      optional: true
+                    - name: page
+                      type: number
+                      desc: Page number for pagination (min 1)
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                    - name: sort
+                      type: string
+                      desc: Sort by
+                      optional: true
+                    - name: state
+                      type: string
+                      desc: Filter by state
+                      optional: true
+                  annotations:
+                    title: List pull requests
+                    readOnlyHint: true
+                - name: list_releases
+                  description: List releases in a GitHub repository
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: page
+                      type: number
+                      desc: Page number for pagination (min 1)
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                  annotations:
+                    title: List releases
+                    readOnlyHint: true
+                - name: list_tags
+                  description: List git tags in a GitHub repository
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: page
+                      type: number
+                      desc: Page number for pagination (min 1)
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                  annotations:
+                    title: List tags
+                    readOnlyHint: true
+                - name: merge_pull_request
+                  description: Merge a pull request in a GitHub repository.
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: pullNumber
+                      type: number
+                      desc: Pull request number
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: commit_message
+                      type: string
+                      desc: Extra detail for merge commit
+                      optional: true
+                    - name: commit_title
+                      type: string
+                      desc: Title for merge commit
+                      optional: true
+                    - name: merge_method
+                      type: string
+                      desc: Merge method
+                      optional: true
+                  annotations:
+                    title: Merge pull request
+                - name: pull_request_read
+                  description: Get information on a specific pull request in GitHub repository.
+                  arguments:
+                    - name: method
+                      type: string
+                      desc: "Action to specify what pull request data needs to be retrieved from GitHub. \nPossible options: \n 1. get - Get details of a specific pull request.\n 2. get_diff - Get the diff of a pull request.\n 3. get_status - Get status of a head commit in a pull request. This reflects status of builds and checks.\n 4. get_files - Get the list of files changed in a pull request. Use with pagination parameters to control the number of results returned.\n 5. get_review_comments - Get the review comments on a pull request. They are comments made on a portion of the unified diff during a pull request review. Use with pagination parameters to control the number of results returned.\n 6. get_reviews - Get the reviews on a pull request. When asked for review comments, use get_review_comments method.\n 7. get_comments - Get comments on a pull request. Use this if user doesn't specifically want review comments. Use with pagination parameters to control the number of results returned.\n"
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: pullNumber
+                      type: number
+                      desc: Pull request number
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: page
+                      type: number
+                      desc: Page number for pagination (min 1)
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                  annotations:
+                    title: Get details for a single pull request
+                    readOnlyHint: true
+                - name: pull_request_review_write
+                  description: |-
+                    Create and/or submit, delete review of a pull request.
+
+                    Available methods:
+                    - create: Create a new review of a pull request. If "event" parameter is provided, the review is submitted. If "event" is omitted, a pending review is created.
+                    - submit_pending: Submit an existing pending review of a pull request. This requires that a pending review exists for the current user on the specified pull request. The "body" and "event" parameters are used when submitting the review.
+                    - delete_pending: Delete an existing pending review of a pull request. This requires that a pending review exists for the current user on the specified pull request.
+                  arguments:
+                    - name: method
+                      type: string
+                      desc: The write operation to perform on pull request review.
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: pullNumber
+                      type: number
+                      desc: Pull request number
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: body
+                      type: string
+                      desc: Review comment text
+                      optional: true
+                    - name: commitID
+                      type: string
+                      desc: SHA of commit to review
+                      optional: true
+                    - name: event
+                      type: string
+                      desc: Review action to perform.
+                      optional: true
+                  annotations:
+                    title: Write operations (create, submit, delete) on pull request reviews.
+                - name: push_files
+                  description: Push multiple files to a GitHub repository in a single commit
+                  arguments:
+                    - name: branch
+                      type: string
+                      desc: Branch to push to
+                    - name: files
+                      type: array
+                      items:
+                        type: object
+                      desc: Array of file objects to push, each object with path (string) and content (string)
+                    - name: message
+                      type: string
+                      desc: Commit message
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                  annotations:
+                    title: Push files to repository
+                - name: request_copilot_review
+                  description: Request a GitHub Copilot code review for a pull request. Use this for automated feedback on pull requests, usually before requesting a human reviewer.
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: pullNumber
+                      type: number
+                      desc: Pull request number
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                  annotations:
+                    title: Request Copilot review
+                - name: search_code
+                  description: Fast and precise code search across ALL GitHub repositories using GitHub's native search engine. Best for finding exact symbols, functions, classes, or specific code patterns.
+                  arguments:
+                    - name: query
+                      type: string
+                      desc: 'Search query using GitHub''s powerful code search syntax. Examples: ''content:Skill language:Java org:github'', ''NOT is:archived language:Python OR language:go'', ''repo:github/github-mcp-server''. Supports exact matching, language filters, path filters, and more.'
+                    - name: order
+                      type: string
+                      desc: Sort order for results
+                      optional: true
+                    - name: page
+                      type: number
+                      desc: Page number for pagination (min 1)
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                    - name: sort
+                      type: string
+                      desc: Sort field ('indexed' only)
+                      optional: true
+                  annotations:
+                    title: Search code
+                    readOnlyHint: true
+                - name: search_issues
+                  description: Search for issues in GitHub repositories using issues search syntax already scoped to is:issue
+                  arguments:
+                    - name: query
+                      type: string
+                      desc: Search query using GitHub issues search syntax
+                    - name: order
+                      type: string
+                      desc: Sort order
+                      optional: true
+                    - name: owner
+                      type: string
+                      desc: Optional repository owner. If provided with repo, only issues for this repository are listed.
+                      optional: true
+                    - name: page
+                      type: number
+                      desc: Page number for pagination (min 1)
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                    - name: repo
+                      type: string
+                      desc: Optional repository name. If provided with owner, only issues for this repository are listed.
+                      optional: true
+                    - name: sort
+                      type: string
+                      desc: Sort field by number of matches of categories, defaults to best match
+                      optional: true
+                  annotations:
+                    title: Search issues
+                    readOnlyHint: true
+                - name: search_pull_requests
+                  description: Search for pull requests in GitHub repositories using issues search syntax already scoped to is:pr
+                  arguments:
+                    - name: query
+                      type: string
+                      desc: Search query using GitHub pull request search syntax
+                    - name: order
+                      type: string
+                      desc: Sort order
+                      optional: true
+                    - name: owner
+                      type: string
+                      desc: Optional repository owner. If provided with repo, only pull requests for this repository are listed.
+                      optional: true
+                    - name: page
+                      type: number
+                      desc: Page number for pagination (min 1)
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                    - name: repo
+                      type: string
+                      desc: Optional repository name. If provided with owner, only pull requests for this repository are listed.
+                      optional: true
+                    - name: sort
+                      type: string
+                      desc: Sort field by number of matches of categories, defaults to best match
+                      optional: true
+                  annotations:
+                    title: Search pull requests
+                    readOnlyHint: true
+                - name: search_repositories
+                  description: Find GitHub repositories by name, description, readme, topics, or other metadata. Perfect for discovering projects, finding examples, or locating specific repositories across GitHub.
+                  arguments:
+                    - name: query
+                      type: string
+                      desc: 'Repository search query. Examples: ''machine learning in:name stars:>1000 language:python'', ''topic:react'', ''user:facebook''. Supports advanced search syntax for precise filtering.'
+                    - name: minimal_output
+                      type: boolean
+                      desc: 'Return minimal repository information (default: true). When false, returns full GitHub API repository objects.'
+                      optional: true
+                    - name: order
+                      type: string
+                      desc: Sort order
+                      optional: true
+                    - name: page
+                      type: number
+                      desc: Page number for pagination (min 1)
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                    - name: sort
+                      type: string
+                      desc: Sort repositories by field, defaults to best match
+                      optional: true
+                  annotations:
+                    title: Search repositories
+                    readOnlyHint: true
+                - name: search_users
+                  description: Find GitHub users by username, real name, or other profile information. Useful for locating developers, contributors, or team members.
+                  arguments:
+                    - name: query
+                      type: string
+                      desc: 'User search query. Examples: ''john smith'', ''location:seattle'', ''followers:>100''. Search is automatically scoped to type:user.'
+                    - name: order
+                      type: string
+                      desc: Sort order
+                      optional: true
+                    - name: page
+                      type: number
+                      desc: Page number for pagination (min 1)
+                      optional: true
+                    - name: perPage
+                      type: number
+                      desc: Results per page for pagination (min 1, max 100)
+                      optional: true
+                    - name: sort
+                      type: string
+                      desc: Sort users by number of followers or repositories, or when the person joined GitHub.
+                      optional: true
+                  annotations:
+                    title: Search users
+                    readOnlyHint: true
+                - name: sub_issue_write
+                  description: Add a sub-issue to a parent issue in a GitHub repository.
+                  arguments:
+                    - name: issue_number
+                      type: number
+                      desc: The number of the parent issue
+                    - name: method
+                      type: string
+                      desc: "The action to perform on a single sub-issue\nOptions are:\n- 'add' - add a sub-issue to a parent issue in a GitHub repository.\n- 'remove' - remove a sub-issue from a parent issue in a GitHub repository.\n- 'reprioritize' - change the order of sub-issues within a parent issue in a GitHub repository. Use either 'after_id' or 'before_id' to specify the new position.\n                "
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: sub_issue_id
+                      type: number
+                      desc: The ID of the sub-issue to add. ID is not the same as issue number
+                    - name: after_id
+                      type: number
+                      desc: The ID of the sub-issue to be prioritized after (either after_id OR before_id should be specified)
+                      optional: true
+                    - name: before_id
+                      type: number
+                      desc: The ID of the sub-issue to be prioritized before (either after_id OR before_id should be specified)
+                      optional: true
+                    - name: replace_parent
+                      type: boolean
+                      desc: When true, replaces the sub-issue's current parent issue. Use with 'add' method only.
+                      optional: true
+                  annotations:
+                    title: Change sub-issue
+                - name: update_pull_request
+                  description: Update an existing pull request in a GitHub repository.
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: pullNumber
+                      type: number
+                      desc: Pull request number to update
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: base
+                      type: string
+                      desc: New base branch name
+                      optional: true
+                    - name: body
+                      type: string
+                      desc: New description
+                      optional: true
+                    - name: draft
+                      type: boolean
+                      desc: Mark pull request as draft (true) or ready for review (false)
+                      optional: true
+                    - name: maintainer_can_modify
+                      type: boolean
+                      desc: Allow maintainer edits
+                      optional: true
+                    - name: reviewers
+                      type: array
+                      items:
+                        type: string
+                      desc: GitHub usernames to request reviews from
+                      optional: true
+                    - name: state
+                      type: string
+                      desc: New state
+                      optional: true
+                    - name: title
+                      type: string
+                      desc: New title
+                      optional: true
+                  annotations:
+                    title: Edit pull request
+                - name: update_pull_request_branch
+                  description: Update the branch of a pull request with the latest changes from the base branch.
+                  arguments:
+                    - name: owner
+                      type: string
+                      desc: Repository owner
+                    - name: pullNumber
+                      type: number
+                      desc: Pull request number
+                    - name: repo
+                      type: string
+                      desc: Repository name
+                    - name: expectedHeadSha
+                      type: string
+                      desc: The expected SHA of the pull request's HEAD ref
+                      optional: true
+                  annotations:
+                    title: Update pull request branch
+            metadata:
+                githubStars: 32604
+                category: devops
+                tags:
+                    - github
+                    - devops
+                license: MIT License
+                owner: github
+secrets:
+    default:
+        provider: docker-desktop-store

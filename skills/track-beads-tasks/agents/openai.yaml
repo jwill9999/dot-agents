@@ -1,0 +1,4 @@
+interface:
+  display_name: "Track Beads Tasks"
+  short_description: "Beads task workflow for repos."
+  default_prompt: "Use $track-beads-tasks to create, update, link, and sync repository tasks safely."

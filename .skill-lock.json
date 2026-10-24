@@ -1,0 +1,58 @@
+{
+  "version": 3,
+  "skills": {
+    "microsoft-foundry": {
+      "source": "microsoft/azure-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/microsoft/azure-skills.git",
+      "skillPath": ".github/plugins/azure-skills/skills/microsoft-foundry/SKILL.md",
+      "skillFolderHash": "ade25e93274081569d14dbc6aa7dbd1d0d449ca8",
+      "installedAt": "2026-03-17T00:59:11.062Z",
+      "updatedAt": "2026-03-20T00:35:45.333Z"
+    },
+    "chrome-extensions": {
+      "source": "GoogleChrome/modern-web-guidance",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/GoogleChrome/modern-web-guidance.git",
+      "skillPath": "skills/chrome-extensions/SKILL.md",
+      "skillFolderHash": "70ae21f9bbccb4d97c2748dffcc227f9ed07c6cf",
+      "installedAt": "2026-09-27T14:28:35.001Z",
+      "updatedAt": "2026-09-27T14:28:35.001Z"
+    },
+    "modern-web-guidance": {
+      "source": "GoogleChrome/modern-web-guidance",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/GoogleChrome/modern-web-guidance.git",
+      "skillPath": "skills/modern-web-guidance/SKILL.md",
+      "skillFolderHash": "bb63f9b3fc55c86dccd7e7329de05e122430e8be",
+      "installedAt": "2026-09-27T14:28:35.004Z",
+      "updatedAt": "2026-09-27T14:28:35.004Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "76a98a285cb0434f3d39e1a873823556330e398b",
+      "installedAt": "2026-09-27T14:28:44.566Z",
+      "updatedAt": "2026-09-27T14:28:44.566Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "cline",
+    "codex",
+    "cursor",
+    "droid",
+    "gemini-cli",
+    "github-copilot",
+    "kilo",
+    "kimi-code-cli",
+    "opencode",
+    "warp",
+    "zed"
+  ]
+}

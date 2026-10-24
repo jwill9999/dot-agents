@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "_comment": "Shared MCP definitions. Each server has ONE route: gateway (Docker MCP gateway profile), direct (written into each tool), or connector (the tool's own built-in connection). No secrets here: use bearer_env / env_refs with environment variable names.",
+  "gateway": {
+    "name": "MCP_DOCKER",
+    "profile": "codex",
+    "command": "docker",
+    "args": [
+      "mcp",
+      "gateway",
+      "run",
+      "--profile",
+      "codex"
+    ],
+    "profile_file": "docker-profile-dev.yaml"
+  },
+  "servers": {
+    "github": {
+      "route": "gateway",
+      "aliases": [
+        "GitHub",
+        "github-official"
+      ],
+      "match_urls": [
+        "api.githubcopilot.com"
+      ],
+      "connector_in": [
+        "codex"
+      ],
+      "note": "Docker 'codex' profile as github-official (OAuth in Docker Desktop); Codex uses its curated GitHub connection instead."
+    },
+    "context7": {
+      "route": "gateway",
+      "match_urls": [
+        "mcp.context7.com"
+      ],
+      "note": "In the Docker 'codex' profile."
+    },
+    "figma": {
+      "route": "direct",
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp",
+      "note": "Remote, OAuth sign-in per tool."
+    },
+    "beads": {
+      "route": "direct",
+      "type": "stdio",
+      "command": "~/.local/bin/beads-mcp",
+      "args": [],
+      "match_commands": [
+        "beads-mcp"
+      ],
+      "note": "Needs the local repo; pass workspace_root per call. No global cwd."
+    },
+    "chrome-devtools": {
+      "route": "direct",
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest",
+        "--no-usage-statistics"
+      ],
+      "note": "Drives the local Chrome."
+    },
+    "playwright": {
+      "route": "gateway",
+      "match_commands": [
+        "@playwright/mcp"
+      ],
+      "note": "Docker 'codex' profile (containerised, headless)."
+    },
+    "notebooklm": {
+      "route": "direct",
+      "type": "stdio",
+      "command": "notebooklm-mcp",
+      "args": [],
+      "aliases": [
+        "notebooklm-mcp"
+      ],
+      "note": "Local CLI with its own sign-in."
+    },
+    "sonarqube": {
+      "route": "gateway",
+      "note": "Docker 'codex' profile; token in Docker's secret store."
+    },
+    "fetch": {
+      "route": "gateway",
+      "note": "Docker 'codex' profile."
+    },
+    "time": {
+      "route": "gateway",
+      "note": "Docker 'codex' profile."
+    },
+    "sequentialthinking": {
+      "route": "gateway",
+      "note": "Docker 'codex' profile.",
+      "aliases": [
+        "sequential-thinking"
+      ]
+    },
+    "openapi": {
+      "route": "gateway",
+      "note": "Docker 'codex' profile."
+    },
+    "next-devtools-mcp": {
+      "route": "gateway",
+      "note": "Docker 'codex' profile (Next.js)."
+    }
+  },
+  "tools": {
+    "codex": {
+      "skip": []
+    },
+    "claude": {
+      "skip": []
+    },
+    "cursor": {
+      "skip": []
+    },
+    "gemini": {
+      "skip": []
+    }
+  }
+}
