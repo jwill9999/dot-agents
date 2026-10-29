@@ -1,6 +1,6 @@
 ---
 name: manage-skills
-description: Creates, installs, links, renames, removes and audits agent skills on this machine, and configures MCP servers that a skill depends on. Use when the user asks to create or install a skill, symlink a skill into a tool, find duplicate or broken skills, asks where skills are stored, or wants an MCP server set up for a skill.
+description: Creates, installs, links, renames, removes and audits agent skills on this machine, and adds shared MCP servers that every coding tool picks up through ~/.agents. Use when the user asks to create or install a skill, symlink a skill into a tool, find duplicate or broken skills, asks where skills are stored, wants to add, share, sync or remove a global or user-level MCP server across tools (Claude Code, Codex, Cursor, Gemini), or wants an MCP server set up for a skill.
 ---
 
 # Manage skills
@@ -29,9 +29,16 @@ Codex, Cursor, GitHub Copilot CLI and Gemini CLI read `~/.agents/skills` directl
 `AGENTS.md` (personal global instructions, linked into each tool), `git/` (global gitignore,
 commit template, hooks with secret scan), `mcp/` (shared MCP servers, `servers.json` + `sync.py`)
 and `bootstrap.sh`, which recreates every link and setting. After adding or renaming a shared
-skill, re-running `bash ~/.agents/bootstrap.sh` refreshes the Claude Code links. For an MCP
-server a skill depends on, add it to `~/.agents/mcp/servers.json` with one route (`gateway`,
-`direct` or `connector`) and run `python3 ~/.agents/mcp/sync.py` (check), then `--apply`.
+skill, re-running `bash ~/.agents/bootstrap.sh` refreshes the Claude Code links.
+
+## Add a shared MCP server
+
+Global MCP servers are defined once in `~/.agents/mcp/servers.json` and written into each
+tool by `~/.agents/mcp/sync.py`; never add a global server to one tool by hand only. Follow
+`references/mcp-setup.md` (schema, route choice, sync and verification). In short: check the
+server's official setup docs, add one entry, run
+`python3 ~/.agents/mcp/sync.py --server=<name>` to check, then add `--apply`, and verify with
+a real tool call (`scripts/mcp-probe.py`).
 
 ## Rules
 
