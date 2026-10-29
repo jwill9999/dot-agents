@@ -36,6 +36,15 @@
       "skillFolderHash": "76a98a285cb0434f3d39e1a873823556330e398b",
       "installedAt": "2026-09-27T14:28:44.566Z",
       "updatedAt": "2026-09-27T14:28:44.566Z"
+    },
+    "langfuse": {
+      "source": "langfuse/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/langfuse/skills.git",
+      "skillPath": "skills/langfuse/SKILL.md",
+      "skillFolderHash": "e328647f773572c449699be03e719e95ab151a6f",
+      "installedAt": "2026-10-29T02:18:04.831Z",
+      "updatedAt": "2026-10-29T02:18:04.831Z"
     }
   },
   "dismissed": {

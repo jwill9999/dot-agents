@@ -13,6 +13,7 @@ GitHub Copilot CLI, Gemini CLI). Versioned in git; `bootstrap.sh` wires it into 
 | `git/gitmessage` | Conventional Commit template | `git config --global commit.template` |
 | `git/hooks/` | Global hooks: secret scan (gitleaks), then the repo's own `.git/hooks/*` | `git config --global core.hooksPath` |
 | `mcp/servers.json` | Shared MCP server definitions | `mcp/sync.py` writes each tool's own config format |
+| `env/*.sh` | Credential loaders: read secrets from the macOS Keychain and export env vars (no secrets in files) | Sourced from `~/.zshenv` |
 | `.skill-lock.json` | `npx skills` installer state | Managed by the installer; don't hand-edit |
 
 ## Set up a machine

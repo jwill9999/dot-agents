@@ -128,7 +128,7 @@ def desired(cfg, tool):
         if s["route"] == "gateway":
             gateway_needed = True
         elif s["route"] == "direct":
-            want[name] = s
+            want[name] = dict(s, **s.get("tool_overrides", {}).get(tool, {}))
     if gateway_needed:
         g = cfg["gateway"]
         want[g["name"]] = {"route": "direct", "type": "stdio", "command": g["command"], "args": g["args"], "_gateway": True}
@@ -166,31 +166,36 @@ def entry_for(tool, s):
     for k, var in (s.get("env_refs") or {}).items():
         env[k] = {"claude": "${%s}", "cursor": "${env:%s}", "gemini": "${%s}", "codex": "%s"}[tool] % var
     bearer = s.get("bearer_env")
+    hdr = s.get("headers_env") or {}  # header name -> env var holding the full header value
     if tool == "cursor":
         if http:
             e = {"url": s["url"]}
             if bearer: e["headers"] = {"Authorization": "Bearer ${env:%s}" % bearer}
+            if hdr: e.setdefault("headers", {}).update({k: "${env:%s}" % v for k, v in hdr.items()})
             return e
         e = {"type": "stdio", "command": expand(s["command"]), "args": s.get("args", [])}
         if env: e["env"] = env
         return e
     if tool == "gemini":
         if http:
-            if bearer: return None  # header env expansion isn't documented for Gemini
+            if bearer or hdr: return None  # header env expansion isn't documented for Gemini; use tool_overrides
             return {"httpUrl": s["url"]}
         e = {"command": expand(s["command"]), "args": s.get("args", [])}
         if env: e["env"] = env
+        if s.get("disabled_tools"): e["excludeTools"] = s["disabled_tools"]
         return e
     if tool == "claude":
         if http:
             e = {"type": "http", "url": s["url"]}
             if bearer: e["headers"] = {"Authorization": "Bearer ${%s}" % bearer}
+            if hdr: e.setdefault("headers", {}).update({k: "${%s}" % v for k, v in hdr.items()})
             return e
         e = {"command": expand(s["command"]), "args": s.get("args", [])}
         if env: e["env"] = env
         return e
     if tool == "codex":
         if http:
+            if hdr: return None  # `codex mcp add` has no flag for env_http_headers; edit config.toml
             cmd = ["codex", "mcp", "add", "{name}", "--url", s["url"]]
             if bearer: cmd += ["--bearer-token-env-var", bearer]
             return cmd
