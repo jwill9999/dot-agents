@@ -106,6 +106,60 @@
     "next-devtools-mcp": {
       "route": "gateway",
       "note": "Docker 'codex' profile (Next.js)."
+    },
+    "langfuse-docs": {
+      "route": "direct",
+      "type": "http",
+      "url": "https://langfuse.com/api/mcp",
+      "match_urls": [
+        "langfuse.com/api/mcp"
+      ],
+      "note": "Public Langfuse docs search, no credentials. https://langfuse.com/docs/docs-mcp"
+    },
+    "langfuse": {
+      "route": "direct",
+      "type": "http",
+      "url": "https://cloud.langfuse.com/api/public/mcp",
+      "headers_env": {
+        "Authorization": "LANGFUSE_MCP_AUTH"
+      },
+      "disabled_tools": [
+        "deleteAnnotationQueueItem",
+        "deleteAnnotationQueueAssignment",
+        "deleteDatasetItem",
+        "deleteDatasetRun",
+        "deleteScoreConfig",
+        "deleteModel",
+        "deleteEvaluator",
+        "deleteEvaluationRule",
+        "deleteDashboardWidget",
+        "deleteDashboard",
+        "deleteDashboardPlacement",
+        "updatePromptLabels",
+        "runBatchEvaluation",
+        "testEvaluator",
+        "submitFeedback"
+      ],
+      "match_urls": [
+        "/api/public/mcp"
+      ],
+      "tool_overrides": {
+        "gemini": {
+          "type": "stdio",
+          "command": "npx",
+          "args": [
+            "-y",
+            "mcp-remote@latest",
+            "https://cloud.langfuse.com/api/public/mcp",
+            "--header",
+            "Authorization:${LANGFUSE_AUTH_HEADER}"
+          ],
+          "env_refs": {
+            "LANGFUSE_AUTH_HEADER": "LANGFUSE_MCP_AUTH"
+          }
+        }
+      },
+      "note": "Langfuse project MCP (prompts, traces, observations). disabled_tools blocks deletes, prompt label moves, evaluation runs and external feedback: Codex disabled_tools, Gemini excludeTools, Claude Code permissions.deny, Cursor per-tool toggles (UI only). Project-scoped keys from the Keychain via ~/.agents/env/langfuse.sh, which exports LANGFUSE_MCP_AUTH='Basic base64(pk:sk)'. Codex: hand-written env_http_headers in config.toml. Gemini: via mcp-remote, since header env expansion is undocumented there. https://langfuse.com/docs/api-and-data-platform/features/mcp-server"
     }
   },
   "tools": {
