@@ -5,7 +5,8 @@ Default is --check: report only, change nothing. --export first refreshes the Do
 export (gateway.profile_file) with `docker mcp profile export`; the export is then checked against
 the gateway-routed servers. --apply adds what's missing. Existing entries
 that differ, and duplicates across routes, are reported; they are only changed with --replace /
---prune. Servers not in servers.json are never touched. No secrets are read from or written to
+--prune. --tool=NAME and --server=NAME (repeatable) limit the run to those tools / servers;
+--server skips the Docker profile check. Servers not in servers.json are never touched. No secrets are read from or written to
 servers.json; credentials are environment-variable references in each tool's own syntax.
 Python 3.9+, standard library only.
 """
@@ -23,6 +24,7 @@ STAMP = time.strftime("%Y%m%d-%H%M%S")
 args = set(sys.argv[1:])
 APPLY, REPLACE, PRUNE, EXPORT = "--apply" in args, "--replace" in args, "--prune" in args, "--export" in args
 ONLY = [a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--tool=")]
+SERVERS = [a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--server=")]
 
 
 def expand(p):
@@ -121,7 +123,7 @@ def desired(cfg, tool):
     skip = set(cfg["tools"].get(tool, {}).get("skip", []))
     want, gateway_needed, connectors = {}, False, []
     for name, s in cfg["servers"].items():
-        if name in skip:
+        if name in skip or (SERVERS and name not in SERVERS):
             continue
         if tool in s.get("connector_in", []):
             connectors.append(name); continue
@@ -255,12 +257,15 @@ def apply_cli(tool, adds, removes):
 # ---------- main ----------
 def main():
     cfg = json.load(open(SRC, encoding="utf-8"))
+    unknown = [n for n in SERVERS if n not in cfg["servers"]]
+    if unknown:
+        sys.exit("Unknown server(s) for --server: %s" % ", ".join(unknown))
     gw = cfg["gateway"]
     print("Source: %s   mode: %s" % (SRC, "apply" if APPLY else "check"))
-    gw_servers = [n for n, s in cfg["servers"].items() if s["route"] == "gateway"]
+    gw_servers = [n for n, s in cfg["servers"].items() if s["route"] == "gateway" and (not SERVERS or n in SERVERS)]
     # Every problem is an item: (to-do label, done label, how to fix, names to remove, names to add).
     # It counts as changed only when --apply removed and added all of its names.
-    items = [(l, l, "manual", [], []) for l in (check_profile(cfg, gw_servers) if gw_servers and not ONLY else [])]
+    items = [(l, l, "manual", [], []) for l in (check_profile(cfg, gw_servers) if gw_servers and not ONLY and not SERVERS else [])]
     changed = []
     for tool in (ONLY or ["codex", "claude", "cursor", "gemini"]):
         path = PATHS[tool]

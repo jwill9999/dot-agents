@@ -107,6 +107,46 @@
       "route": "gateway",
       "note": "Docker 'codex' profile (Next.js)."
     },
+    "langchain_docs": {
+      "route": "direct",
+      "type": "http",
+      "url": "https://docs.langchain.com/mcp",
+      "aliases": [
+        "docs-langchain",
+        "langchain-docs"
+      ],
+      "match_urls": [
+        "https://docs.langchain.com/mcp"
+      ]
+    },
+    "langchain_reference": {
+      "route": "direct",
+      "type": "http",
+      "url": "https://reference.langchain.com/mcp",
+      "aliases": [
+        "reference-langchain",
+        "langchain-reference"
+      ],
+      "match_urls": [
+        "https://reference.langchain.com/mcp"
+      ]
+    },
+    "mastra": {
+      "route": "direct",
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mastra/mcp-docs-server@latest"
+      ],
+      "aliases": [
+        "mastra-docs"
+      ],
+      "match_commands": [
+        "@mastra/mcp-docs-server"
+      ],
+      "note": "Mastra docs, examples and changelogs (local stdio, no credentials). Needs Node >=22.13. Hosted alternative https://mastra.mcp.kapa.ai needs Google sign-in."
+    },
     "langfuse-docs": {
       "route": "direct",
       "type": "http",

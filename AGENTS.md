@@ -26,6 +26,39 @@
 - Conventional Commits; small atomic commits that can be reverted or cherry-picked alone.
 - Never commit to, force-push or rewrite protected branches. Use the `commit-push-pr` skill.
 
+## Temporary VM lifecycle
+- Default to one agent-owned temporary test VM across the entire task, including delegated
+  work. Keep the application's normal VM separate. Additional concurrent test VMs need an
+  explicit requirement and agreed limit; do not allocate one per agent by default.
+- Reuse an existing suitable test VM and immutable base image. Do not create another full
+  disk or VM for each prompt, retry, approval or test step. Identify which writable state
+  must be isolated before making a copy.
+- Prefer the owner-configured external development storage for bulky retained test artefacts.
+  Record real external paths and aliases; if that volume is required but missing, stop rather
+  than silently creating replacement disks in the home directory.
+- Before launch, record the task owner, purpose, VM/lease identity, helper process identity,
+  disk paths and expected teardown boundary. Never record credentials in this inventory.
+- Put owned VM and helper shutdown in guaranteed teardown. Confirm they have stopped after
+  the test block, including failures and cancellations. If teardown is unconfirmed, stop
+  the block and resolve ownership; do not launch a replacement and accumulate environments.
+- Retain compact results and necessary failure evidence. Use `maintain-test-storage` to
+  retire approved disposable disks and runtimes after review; stopping a VM alone is not
+  storage cleanup. Keep unresolved effects and recovery requirements explicit.
+- Do not stop an application-owned VM or unrelated service merely to free a test file.
+  Instructions guide agent behaviour; a hard concurrency limit must also be enforced by
+  the VM launcher and verified with lifecycle tests.
+
+## Test evidence retention
+- Keep generated test reports, traces and temporary documents in one task-owned collection,
+  with purpose, outcome, retention reason and review trigger in a compact index. Avoid
+  scattering exports across Documents and Downloads.
+- After the relevant problem is resolved and reviewed, retire redundant reports, repeated
+  preflights, temporary drafts and disposable runtime state using `maintain-test-storage`.
+  Retain sufficient final results and failure evidence for unresolved investigations.
+- Before retiring duplicates, verify the canonical copy and record its location and digest.
+  Do not infer that source projects, owner documents, profiles or old files are disposable.
+  Review recovery archives separately so cleanup does not create a permanent archive backlog.
+
 ## Shared setup (this machine)
 - Shared skills live in `~/.agents/skills` (managed with the `manage-skills` skill).
 - Repo conventions live in each repo's AGENTS.md (`init-agent-conventions` sets them up).
