@@ -1,0 +1,49 @@
+{
+  "source": "https://github.com/langchain-ai/langchain-skills",
+  "revision": "4f0e6bd5400836b691826622da1969ada6a1c833",
+  "installedAt": "2026-10-25",
+  "method": "reviewed unmodified folder copy; not skills-installer managed",
+  "skills": [
+    {
+      "name": "ecosystem-primer",
+      "sha256": "cc786e2a06096142f93bda47bd9e9419338b21fead8d5c3d7b997cef43ed32cb",
+      "canonicalPath": "/Users/letuscode/.agents/skills/ecosystem-primer",
+      "claudeLink": "/Users/letuscode/.claude/skills/ecosystem-primer"
+    },
+    {
+      "name": "langchain-dependencies",
+      "sha256": "e099bf710d55bac77bdb3aa3e0b76e3da249f0ba910f37ba6a87c524d14dd8bf",
+      "canonicalPath": "/Users/letuscode/.agents/skills/langchain-dependencies",
+      "claudeLink": "/Users/letuscode/.claude/skills/langchain-dependencies"
+    },
+    {
+      "name": "deepagents-typescript-quickstart",
+      "sha256": "fbdde0b9416e06c0c8e135015d777652471dac2f972655db3c25748cc157a062",
+      "canonicalPath": "/Users/letuscode/.agents/skills/deepagents-typescript-quickstart",
+      "claudeLink": "/Users/letuscode/.claude/skills/deepagents-typescript-quickstart"
+    },
+    {
+      "name": "deep-agents-core",
+      "sha256": "1bfd3542b3c4b1d861d50cf24bc27267f8e1e1c72570d07583b8e9b39bdeacb1",
+      "canonicalPath": "/Users/letuscode/.agents/skills/deep-agents-core",
+      "claudeLink": "/Users/letuscode/.claude/skills/deep-agents-core"
+    },
+    {
+      "name": "deep-agents-memory",
+      "sha256": "3549b750ca9625dc73e0c4bee87133f57fab374ba0202daa74a2d28c91cb3bf4",
+      "canonicalPath": "/Users/letuscode/.agents/skills/deep-agents-memory",
+      "claudeLink": "/Users/letuscode/.claude/skills/deep-agents-memory"
+    },
+    {
+      "name": "deep-agents-orchestration",
+      "sha256": "76f4c5c9ed0773a0008e753422b3e2f5849b7748c18a9ab84e8e2d4dbbd66ebf",
+      "canonicalPath": "/Users/letuscode/.agents/skills/deep-agents-orchestration",
+      "claudeLink": "/Users/letuscode/.claude/skills/deep-agents-orchestration"
+    }
+  ],
+  "notes": [
+    "Instructions only; no examples executed or provider credentials configured.",
+    "Live documentation and exact package metadata take precedence over dated example versions.",
+    "No LangSmith tracing, deployment, paid model calls or framework runtime enabled."
+  ]
+}
